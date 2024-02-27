@@ -1,0 +1,420 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D918E80B-A196-4BFF-8123-648FED492AB4}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>JuHeYaLoginSubServer</RootNamespace>
+    <AssemblyName>JuHeYaLoginSubServer</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\C#发布文件\JuHeYaLoginServer\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=8.0.27.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Dll\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controller\Base\Controller\BaseController.cs" />
+    <Compile Include="Controller\Base\Controller\IController.cs" />
+    <Compile Include="Controller\Base\Manager\IControllerManager.cs" />
+    <Compile Include="Controller\ControllerManager.cs" />
+    <Compile Include="Controller\Data\ControllerType.cs" />
+    <Compile Include="Controller\Entity\LoginSubServerHeartBeatController.cs" />
+    <Compile Include="Controller\Entity\RegisterLoginSubServerController.cs" />
+    <Compile Include="Data\Code\LoginRequestCode.cs" />
+    <Compile Include="Data\Code\LoginUdpCode.cs" />
+    <Compile Include="Data\Const\CommonConstData.cs" />
+    <Compile Include="Data\Mapper\UdpHandlerMapper.cs" />
+    <Compile Include="Data\ServerData\ServerData.cs" />
+    <Compile Include="Data\SocketData\SubServerType.cs" />
+    <Compile Include="Data\SystemData\SystemData.cs" />
+    <Compile Include="Data\UserData\UserData.cs" />
+    <Compile Include="Helper\XiaoYuanDataHelper.cs" />
+    <Compile Include="Interface\ILife.cs" />
+    <Compile Include="Main\MainCenter.cs" />
+    <Compile Include="Module\ThreadModule\Base\BaseThread.cs" />
+    <Compile Include="Module\ThreadModule\Base\IThread.cs" />
+    <Compile Include="Module\ThreadModule\Entity\OnceThread.cs" />
+    <Compile Include="Module\ThreadModule\ThreadModule.cs" />
+    <Compile Include="MySQL\Data\MySQLTableData.cs" />
+    <Compile Include="MySQL\Tools\MySqlTools.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Socket\Udp\Handler\UdpLoginHandler.cs" />
+    <Compile Include="Socket\Udp\Handler\UdpSubServerHandler.cs" />
+    <Compile Include="TemplatePro\DataStruct\StringBuilderPool.cs" />
+    <Compile Include="TemplatePro\Data\Const\BytesConst.cs" />
+    <Compile Include="TemplatePro\Data\Const\CommonConstData.cs" />
+    <Compile Include="TemplatePro\Data\Const\GameConstData.cs" />
+    <Compile Include="TemplatePro\Data\Const\Time.cs" />
+    <Compile Include="TemplatePro\Data\HotUpdateData\ServerInfo.cs" />
+    <Compile Include="TemplatePro\Data\PathData\PathData.cs" />
+    <Compile Include="TemplatePro\Data\SocketData\UDP\UdpOnLineData.cs" />
+    <Compile Include="TemplatePro\DesignPattern\Singleton.cs" />
+    <Compile Include="TemplatePro\ExtendMethod\ByteExtendMethod.cs" />
+    <Compile Include="TemplatePro\ExtendMethod\BytesConverterExtend.cs" />
+    <Compile Include="TemplatePro\ExtendMethod\CollectionExtend.cs" />
+    <Compile Include="TemplatePro\ExtendMethod\EndPointExtend.cs" />
+    <Compile Include="TemplatePro\ExtendMethod\LinqExtend.cs" />
+    <Compile Include="TemplatePro\ExtendMethod\ListExtend.cs" />
+    <Compile Include="TemplatePro\ExtendMethod\ObjectConverterExtend.cs" />
+    <Compile Include="TemplatePro\ExtendMethod\ObjectExtend.cs" />
+    <Compile Include="TemplatePro\ExtendMethod\StringExtend.cs" />
+    <Compile Include="TemplatePro\ExtendMethod\TypeExtend.cs" />
+    <Compile Include="TemplatePro\Helper\DataHelper.cs" />
+    <Compile Include="TemplatePro\HotFix\HotFixData.cs" />
+    <Compile Include="TemplatePro\HotFix\HotFixManager.cs" />
+    <Compile Include="TemplatePro\Interface\IClone.cs" />
+    <Compile Include="TemplatePro\Interface\IDataConverter.cs" />
+    <Compile Include="TemplatePro\Interface\IPool.cs" />
+    <Compile Include="TemplatePro\Interface\IRecycle.cs" />
+    <Compile Include="TemplatePro\Interface\IReset.cs" />
+    <Compile Include="TemplatePro\LockStep\Data\CommonLockStepData.cs" />
+    <Compile Include="TemplatePro\LockStep\Data\LockStepData.cs" />
+    <Compile Include="TemplatePro\LockStep\Data\LockStepUserData.cs" />
+    <Compile Include="TemplatePro\LockStep\FixData\Fix32\Fix32.cs" />
+    <Compile Include="TemplatePro\LockStep\FixData\Fix32\Fix32Vector2.cs" />
+    <Compile Include="TemplatePro\LockStep\FixData\Fix32\Fix32Vector3.cs" />
+    <Compile Include="TemplatePro\LockStep\FixData\Fix64\Fix64.cs" />
+    <Compile Include="TemplatePro\LockStep\FixData\Fix64\FixVector2.cs" />
+    <Compile Include="TemplatePro\LockStep\FixData\Fix64\FixVector3.cs" />
+    <Compile Include="TemplatePro\LockStep\LockStepManager.cs" />
+    <Compile Include="TemplatePro\LockStep\LockStepMsg.cs" />
+    <Compile Include="TemplatePro\LockStep\LockStepRoom.cs" />
+    <Compile Include="TemplatePro\Main\ServerCenter.cs" />
+    <Compile Include="TemplatePro\Module\BoardCastModule\BoardCastDelegate.cs" />
+    <Compile Include="TemplatePro\Module\BoardCastModule\BoardCastID.cs" />
+    <Compile Include="TemplatePro\Module\BoardCastModule\BoardCastModule.cs" />
+    <Compile Include="TemplatePro\Module\DataModule\Dictionary\DictionaryModule.cs" />
+    <Compile Include="TemplatePro\Module\DataModule\Dictionary\DictionaryPoolModule.cs" />
+    <Compile Include="TemplatePro\Module\DataModule\List\ListModule.cs" />
+    <Compile Include="TemplatePro\Module\DataModule\List\ListPoolModule.cs" />
+    <Compile Include="TemplatePro\Module\Map\Base\BaseMap.cs" />
+    <Compile Include="TemplatePro\Module\Map\Base\IMap.cs" />
+    <Compile Include="TemplatePro\Module\Map\Base\SingleMap.cs" />
+    <Compile Include="TemplatePro\Module\Pool\ClassPoolModule.cs" />
+    <Compile Include="TemplatePro\Module\Pool\PoolData\Dictionary\Base\BaseDictionaryData.cs" />
+    <Compile Include="TemplatePro\Module\Pool\PoolData\Dictionary\Base\IDictionaryData.cs" />
+    <Compile Include="TemplatePro\Module\Pool\PoolData\Dictionary\Entity\DictionaryData.cs" />
+    <Compile Include="TemplatePro\Module\Pool\PoolData\Dictionary\Entity\DictionaryPoolData.cs" />
+    <Compile Include="TemplatePro\Module\Pool\PoolData\List\Base\BaseListData.cs" />
+    <Compile Include="TemplatePro\Module\Pool\PoolData\List\Base\IListData.cs" />
+    <Compile Include="TemplatePro\Module\Pool\PoolData\List\Entity\ListData.cs" />
+    <Compile Include="TemplatePro\Module\Pool\PoolData\List\Entity\ListPoolData.cs" />
+    <Compile Include="TemplatePro\Module\RandomModule\RandomModule.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Base\BaseMySqlCommand.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Base\IMySqlCommand.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Data\MySQLCoding.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Data\MySQLSort.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\Compare\COMPARE.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\Data\DATABASE.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\Insert\VALUES.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\KeyWord\KEYWORD.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\Limit\LIMIT.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\Order\ORDER.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\Select\SELECT.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\Update\UPDATES.cs" />
+    <Compile Include="TemplatePro\MySql\Command\MySQLCommand.cs" />
+    <Compile Include="TemplatePro\MySql\Data\MySQLData.cs" />
+    <Compile Include="TemplatePro\MySql\MySQLCommond\Base\BaseMySQL.cs" />
+    <Compile Include="TemplatePro\MySql\MySQLCommond\Base\IMySQL.cs" />
+    <Compile Include="TemplatePro\MySql\MySQLCommond\Entity\MySQL.cs" />
+    <Compile Include="TemplatePro\MySql\MySQLCommond\Entity\WhereMySQL.cs" />
+    <Compile Include="TemplatePro\MySql\MySQLManager.cs" />
+    <Compile Include="TemplatePro\MySql\Reflection\Base\BaseMySqlReflection.cs" />
+    <Compile Include="TemplatePro\MySql\Reflection\Base\IMySqlReflection.cs" />
+    <Compile Include="TemplatePro\Server\TCP\Client\Client.cs" />
+    <Compile Include="TemplatePro\Server\TCP\Message.cs" />
+    <Compile Include="TemplatePro\Server\TCP\RequestHandleManager.cs" />
+    <Compile Include="TemplatePro\Server\TCP\RequestHandle\BaseTcpRequestHandle.cs" />
+    <Compile Include="TemplatePro\Server\TCP\RequestHandle\ITCPRequestHandle.cs" />
+    <Compile Include="TemplatePro\Server\TCP\TCPServer.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Base\IUdpServer.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Client\SubUdpRequestHandleManager.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Client\SubUdpServer.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\Base\BaseUdpRequestHandle.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\Base\IUdpRequestHandle.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\BigDataController.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\BigData\PlatformType.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\BigData\SocketData.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\BigData\UdpBigData.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\BigData\UdpBigDataItem.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\BigData\UdpBigDataManager.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\BigData\UdpMsg.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\BigData\UdpMsgType.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\Code\UdpCode.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\Code\UdpRequestCode.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\Handle\UdpCommonRequestHandle.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\UdpRequestHandleManager.cs" />
+    <Compile Include="TemplatePro\Server\Udp\Server\UdpServer.cs" />
+    <Compile Include="TemplatePro\Tools\ByteTools.cs" />
+    <Compile Include="TemplatePro\Tools\ConvertDataTools.cs" />
+    <Compile Include="TemplatePro\Tools\Debug.cs" />
+    <Compile Include="TemplatePro\Tools\DictionaryTools.cs" />
+    <Compile Include="TemplatePro\Tools\EndPointTools.cs" />
+    <Compile Include="TemplatePro\Tools\FileTools.cs" />
+    <Compile Include="TemplatePro\Tools\ListTools.cs" />
+    <Compile Include="TemplatePro\Tools\PathTools.cs" />
+    <Compile Include="TemplatePro\Tools\Random_My.cs" />
+    <Compile Include="TemplatePro\Tools\ReflectioTools.cs" />
+    <Compile Include="TemplatePro\Tools\XmlMapper.cs" />
+    <Compile Include="Tools\LoginServerTools.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="TemplatePro\.git\COMMIT_EDITMSG" />
+    <None Include="TemplatePro\.git\config" />
+    <None Include="TemplatePro\.git\description" />
+    <None Include="TemplatePro\.git\FETCH_HEAD" />
+    <None Include="TemplatePro\.git\HEAD" />
+    <None Include="TemplatePro\.git\hooks\applypatch-msg.sample" />
+    <None Include="TemplatePro\.git\hooks\commit-msg.sample" />
+    <None Include="TemplatePro\.git\hooks\fsmonitor-watchman.sample" />
+    <None Include="TemplatePro\.git\hooks\post-update.sample" />
+    <None Include="TemplatePro\.git\hooks\pre-applypatch.sample" />
+    <None Include="TemplatePro\.git\hooks\pre-commit.sample" />
+    <None Include="TemplatePro\.git\hooks\pre-merge-commit.sample" />
+    <None Include="TemplatePro\.git\hooks\pre-push.sample" />
+    <None Include="TemplatePro\.git\hooks\pre-rebase.sample" />
+    <None Include="TemplatePro\.git\hooks\pre-receive.sample" />
+    <None Include="TemplatePro\.git\hooks\prepare-commit-msg.sample" />
+    <None Include="TemplatePro\.git\hooks\push-to-checkout.sample" />
+    <None Include="TemplatePro\.git\hooks\update.sample" />
+    <None Include="TemplatePro\.git\index" />
+    <None Include="TemplatePro\.git\info\exclude" />
+    <None Include="TemplatePro\.git\logs\HEAD" />
+    <None Include="TemplatePro\.git\logs\refs\heads\main" />
+    <None Include="TemplatePro\.git\logs\refs\remotes\origin\HEAD" />
+    <None Include="TemplatePro\.git\logs\refs\remotes\origin\main" />
+    <None Include="TemplatePro\.git\objects\01\e5ad5697cd6b429030eda7c8a6d3e5a9c363f2" />
+    <None Include="TemplatePro\.git\objects\02\ba3e6734bac021b26b17ff294e3c4d7134837f" />
+    <None Include="TemplatePro\.git\objects\04\3d5babcc4523a647ba61018ec13c0f4207ed9f" />
+    <None Include="TemplatePro\.git\objects\05\c824dd687c1746cfdd760a2ee999f80a7320c3" />
+    <None Include="TemplatePro\.git\objects\08\64a18e4f464c77ca90556a0cde185468894718" />
+    <None Include="TemplatePro\.git\objects\08\cb3468fc08a841692e934d909798494e89fa6a" />
+    <None Include="TemplatePro\.git\objects\09\5186de90ccaf0169fbb7d998e880ce3198d843" />
+    <None Include="TemplatePro\.git\objects\0c\5abcc28410647e89eb69d4b32127a0ee4e1178" />
+    <None Include="TemplatePro\.git\objects\0e\2232e3de37e3f47880e83c001d62e36902b1d6" />
+    <None Include="TemplatePro\.git\objects\0e\b33145849fb769d2f303c782c781e4cc32143d" />
+    <None Include="TemplatePro\.git\objects\13\2ad5e92b5ba4b0d2e7e5f0ed94ae62fcf8f1ac" />
+    <None Include="TemplatePro\.git\objects\13\7748f02459980b3784ca4a7e10766a44b76b39" />
+    <None Include="TemplatePro\.git\objects\14\65ebbd1fc8f596318be501b46e7a6c6289802c" />
+    <None Include="TemplatePro\.git\objects\15\010471cc407c3ae09875880655946ebdab4c76" />
+    <None Include="TemplatePro\.git\objects\15\1e9960c71e903c7593aa13a77ddd86a139902b" />
+    <None Include="TemplatePro\.git\objects\17\58d94d52812d37ed2adf8ae404f8f41dacef66" />
+    <None Include="TemplatePro\.git\objects\17\891646555da1024a888d579e6c5e50a6193526" />
+    <None Include="TemplatePro\.git\objects\17\cdc9c5735e89f74d63897dc2e4706e535d57a6" />
+    <None Include="TemplatePro\.git\objects\1a\62d7907616add7aaf1e2ae823432664d326c96" />
+    <None Include="TemplatePro\.git\objects\1c\be1184ff9d97136a78ec90a6d135217a37ab98" />
+    <None Include="TemplatePro\.git\objects\20\bc6a835be65c07659b53f5869809c468661394" />
+    <None Include="TemplatePro\.git\objects\22\27768d2fc78f1cbbae451160c8aa42ab6fbe7d" />
+    <None Include="TemplatePro\.git\objects\23\ef7365a3186920560988d12e79559c593d48c0" />
+    <None Include="TemplatePro\.git\objects\24\99f5fa1972b570295adc9bd97b2173fa94ac97" />
+    <None Include="TemplatePro\.git\objects\25\2f5945a4e0811282cdd4bea1ddf61ceef508df" />
+    <None Include="TemplatePro\.git\objects\26\5e1b70e9a353bfb4812ba9d504342454e8c692" />
+    <None Include="TemplatePro\.git\objects\26\7cf73a2aa009ac62539bb222055a84e3f43b03" />
+    <None Include="TemplatePro\.git\objects\26\a7bca59ad83303315e4f75a741ebd59a70ad36" />
+    <None Include="TemplatePro\.git\objects\27\ead200eff64303688603d89975d24d891ce6b2" />
+    <None Include="TemplatePro\.git\objects\28\239980fa44c59b0e695d3d2b8c90a0de35b45f" />
+    <None Include="TemplatePro\.git\objects\29\435ba816cbc2601c7a51a4d8b37408c96d18fe" />
+    <None Include="TemplatePro\.git\objects\2a\0632a6aceed6329756891314b95e98f1c67245" />
+    <None Include="TemplatePro\.git\objects\2b\0ef181dd88b34b4ae7a7d3f5c3d0a5fd72faec" />
+    <None Include="TemplatePro\.git\objects\2b\a3764d6f65588271dd7764f2b9058debe27722" />
+    <None Include="TemplatePro\.git\objects\2c\f71bf6825cb4c6b6fc29a35c27373723edb004" />
+    <None Include="TemplatePro\.git\objects\2d\bd7d878455294f0411d00521c52e754bdab6fe" />
+    <None Include="TemplatePro\.git\objects\2d\f42edf8e077f0700810c65450da313a32315eb" />
+    <None Include="TemplatePro\.git\objects\2e\71768ba780f85e57a0ba8bbc40f505f77f5c7f" />
+    <None Include="TemplatePro\.git\objects\2e\c43ab465bb49b9ddefeca94ec3dea823b93366" />
+    <None Include="TemplatePro\.git\objects\31\22d2ba6143d599fa7d947570aa71ccdf1e0b02" />
+    <None Include="TemplatePro\.git\objects\33\2a1acbcc2ad12aa1e8825350c925f6e0931198" />
+    <None Include="TemplatePro\.git\objects\37\36e769435c57d2517d9abe0e20490ebea128a9" />
+    <None Include="TemplatePro\.git\objects\37\7a3d498935114605b99bea1e23dcce66da79b1" />
+    <None Include="TemplatePro\.git\objects\37\fb9aa2e48e46bc8a23b1e1367bc9de63f4675a" />
+    <None Include="TemplatePro\.git\objects\3c\3d70c5e0909fdb993945e2d8f4716bb6771526" />
+    <None Include="TemplatePro\.git\objects\41\8503d9a57880c3274a02602c54840bc9fd7a70" />
+    <None Include="TemplatePro\.git\objects\41\8c58519e86ccbad736cd9ff16f1de231ad4d56" />
+    <None Include="TemplatePro\.git\objects\42\358d8f916c2c7f2f54ef55f1d9c20f012455ff" />
+    <None Include="TemplatePro\.git\objects\45\04240d7c668a551e9f11a81ad9aaadc012d70f" />
+    <None Include="TemplatePro\.git\objects\45\783c986633ce3d32fd4c6b43264cb4746b46f4" />
+    <None Include="TemplatePro\.git\objects\45\b85cbc0582cf279ba9a74b3b1cdd8f4d662a34" />
+    <None Include="TemplatePro\.git\objects\45\c6c24bdb73c675d407dc287b50ca3dee4ed1f6" />
+    <None Include="TemplatePro\.git\objects\46\d9dacf0c2bbd9c751ef17ab1b7d966c515d1a2" />
+    <None Include="TemplatePro\.git\objects\47\9c85e65b559095953dc320acfb11d7e2846d00" />
+    <None Include="TemplatePro\.git\objects\49\9f5d1582be0538223615b20f0ea13b45be01e1" />
+    <None Include="TemplatePro\.git\objects\4c\333b529bc9f3e62e2184e35ce6e12342d3ddf3" />
+    <None Include="TemplatePro\.git\objects\4c\50ca7805d901edbf867ec3f0894c472a4df514" />
+    <None Include="TemplatePro\.git\objects\4c\7406dd7cd43f2796c85ce6618b8b6a63cb07d9" />
+    <None Include="TemplatePro\.git\objects\4c\b7616fa26257242a899ebb361d5c0793c1d3d2" />
+    <None Include="TemplatePro\.git\objects\51\2b1cdbea203d4f16d8a7e1da9743f41b3bf206" />
+    <None Include="TemplatePro\.git\objects\52\086ba0096d73fc2dd61cd1aa71ebcfdc9148aa" />
+    <None Include="TemplatePro\.git\objects\52\fdc49e26c911c184fd06f19499f79aa1903f04" />
+    <None Include="TemplatePro\.git\objects\54\b46e5303415db8a4d4adf85217a1f9fa447b29" />
+    <None Include="TemplatePro\.git\objects\55\12752abd0153ef17bc6204dc695fabb1f0166c" />
+    <None Include="TemplatePro\.git\objects\55\da4297c19189e158dc5241bed032861ecfb22a" />
+    <None Include="TemplatePro\.git\objects\56\3b12f30bd86444c9f3add47b6cbc2f5831acce" />
+    <None Include="TemplatePro\.git\objects\56\f719cf29c902cae308f6e97af00be765b2bf02" />
+    <None Include="TemplatePro\.git\objects\58\e962c4372e94ac1ce68197d0df0aeb93707305" />
+    <None Include="TemplatePro\.git\objects\5a\4062d8de19b7df5c0a77f0bec6bfadf84ba561" />
+    <None Include="TemplatePro\.git\objects\5a\fd6dab161c1ebf9f260dfb3e47b1d52dc028f9" />
+    <None Include="TemplatePro\.git\objects\5b\12813831969c7b192a70ecc388da5dfb5e588b" />
+    <None Include="TemplatePro\.git\objects\5d\3070efbe2989f59829c805e956f0dc728e9509" />
+    <None Include="TemplatePro\.git\objects\5e\e58f30fbaa41217106b1489b31e4e62fd315af" />
+    <None Include="TemplatePro\.git\objects\5f\da0e064d9a0937d4af0d45aa011ca31c048b88" />
+    <None Include="TemplatePro\.git\objects\60\e04ad174bb2ec2d35b3d239d6b9058ce7d7a2e" />
+    <None Include="TemplatePro\.git\objects\61\7bc5b03a8ec2ce172ec0fcc504cd9ceda32413" />
+    <None Include="TemplatePro\.git\objects\61\f9b95e9b48b49a79c9e1217aa36ec1df929d29" />
+    <None Include="TemplatePro\.git\objects\62\c3bdc615e77a2fc515f5b353a92fb2eaff2cbd" />
+    <None Include="TemplatePro\.git\objects\64\0104189a6c8b8dde69901611ecd9da762ab5a2" />
+    <None Include="TemplatePro\.git\objects\66\3deb6604927cdce42c4f28d20d7d6cea54e8fe" />
+    <None Include="TemplatePro\.git\objects\68\cbe3bc4541b6efeff2f2d1a5ada3e4c971e630" />
+    <None Include="TemplatePro\.git\objects\69\bfe34121480eec1648f5cc7c296807408b9b9d" />
+    <None Include="TemplatePro\.git\objects\6c\c424b13583d6b8ae46915d28e15f65734dcf7a" />
+    <None Include="TemplatePro\.git\objects\6c\edc7e15e8fed6655a2e794e0a0a3cd1d4a717e" />
+    <None Include="TemplatePro\.git\objects\6e\ef2f1ee184e3b955d32543b8dd2da9a28b3167" />
+    <None Include="TemplatePro\.git\objects\6f\03a3982fc2b236391b7e8dc506e54f397d0122" />
+    <None Include="TemplatePro\.git\objects\6f\cd8b818de0409ebb15c9ba1bedbaab3674e93c" />
+    <None Include="TemplatePro\.git\objects\72\892e012895bd5f0444b3e08720564276e7dfbe" />
+    <None Include="TemplatePro\.git\objects\74\2edcc49f06571f257c92a181ec8194600434e3" />
+    <None Include="TemplatePro\.git\objects\74\59b88d53d1f855c82abb9d627e441f8e369f83" />
+    <None Include="TemplatePro\.git\objects\77\d1ee3cdeccf7e1b796ca952c67649f6df4534e" />
+    <None Include="TemplatePro\.git\objects\7a\7a8aafd6f2acae8258764c7fdcbacd23b3dd01" />
+    <None Include="TemplatePro\.git\objects\7a\a0d0af8d6af47c5ceb50c07a7699c75612a021" />
+    <None Include="TemplatePro\.git\objects\7b\cfb570e2b41568a58ebe82abad865f745c6787" />
+    <None Include="TemplatePro\.git\objects\7b\dce3c7daa88531b40a055a4e487b05affd7f54" />
+    <None Include="TemplatePro\.git\objects\7c\1bbfc37577b5964c3e11eae997358fa748f65f" />
+    <None Include="TemplatePro\.git\objects\7e\1a7507e9e74f71655f62b8c3f6a4ba17ed8288" />
+    <None Include="TemplatePro\.git\objects\7f\34a72f9389e0a5170452fa4e47056ec714f154" />
+    <None Include="TemplatePro\.git\objects\81\6ad50dc099ccccefbcdef6da849a24c0211165" />
+    <None Include="TemplatePro\.git\objects\82\571c0f945d86525a6b095e5440cb3091e7361d" />
+    <None Include="TemplatePro\.git\objects\85\3aa939c7a00ef87a26e961c2adf32cf6e2a90c" />
+    <None Include="TemplatePro\.git\objects\8a\7e2c5719746a696de1384b108fed6e1d7766b4" />
+    <None Include="TemplatePro\.git\objects\8b\8108c33cda44e6eae8218e32ccabe88f8e4fc8" />
+    <None Include="TemplatePro\.git\objects\8c\10ccb138e87da3d928a6be470f34f729279874" />
+    <None Include="TemplatePro\.git\objects\8c\d2e255510d1f0b9f64ad20815812604030a617" />
+    <None Include="TemplatePro\.git\objects\8d\f13ed43b7ea9918365320b26080c9745573a59" />
+    <None Include="TemplatePro\.git\objects\8e\d0034d037d2f2cbc7f4a18c54ed04c57c07587" />
+    <None Include="TemplatePro\.git\objects\8e\e4da209265e2b10592d550d1eeba646e8ae15b" />
+    <None Include="TemplatePro\.git\objects\8f\bd04467067f8de6869d755e66bc50a39fbbc86" />
+    <None Include="TemplatePro\.git\objects\8f\cfd0394724c62ccbaf15903f8510ceae4c6474" />
+    <None Include="TemplatePro\.git\objects\90\0bf1a25762a77ca226e682f431761474d82f9d" />
+    <None Include="TemplatePro\.git\objects\91\a4aed3525dd0e33895e24655e5033f01fb4d09" />
+    <None Include="TemplatePro\.git\objects\92\90f513d3b315a74ebfa0182bf92c8c8dcbb512" />
+    <None Include="TemplatePro\.git\objects\93\d8cbabe447a822abfd8d4da1a63ef0d9b45900" />
+    <None Include="TemplatePro\.git\objects\95\42467aa12ddb640ca619615445afc88a4861fc" />
+    <None Include="TemplatePro\.git\objects\97\0227d96ac80468822c2cd0de80c15916f76d9a" />
+    <None Include="TemplatePro\.git\objects\97\619b4f8165807e407d50ad7c313ea95a344e9c" />
+    <None Include="TemplatePro\.git\objects\9a\6b31b5e94e4ad5edead7dfd40fa8540f7905c4" />
+    <None Include="TemplatePro\.git\objects\9c\a1b9759611e0ddda6fe2aedd665853fb80b091" />
+    <None Include="TemplatePro\.git\objects\9e\476d697ab108372052c333bb68e65ebf2e24de" />
+    <None Include="TemplatePro\.git\objects\9f\367040ca756f3d64ffc7a95b8ba994bd0d7707" />
+    <None Include="TemplatePro\.git\objects\a0\4286d9c29c5b0ee6f1c90e5b019aaefa05875f" />
+    <None Include="TemplatePro\.git\objects\a1\6b80e0e281df98acdd1cb5b93b7548dae5b788" />
+    <None Include="TemplatePro\.git\objects\a4\7f099698fc438723a71f3a78b9ccaaa5616cfa" />
+    <None Include="TemplatePro\.git\objects\a6\611fbfae5679c03aa72084454964c11ad60901" />
+    <None Include="TemplatePro\.git\objects\a6\6d7385369b39f0280da5f965f3c30403d283ba" />
+    <None Include="TemplatePro\.git\objects\a6\8276d3023d42a39abe61b9147d2d591f43be92" />
+    <None Include="TemplatePro\.git\objects\a9\d5de382935892e950ebd045e60c82041c73337" />
+    <None Include="TemplatePro\.git\objects\ac\24f8f271cfd7e9078a9fe700650adc8cb47a17" />
+    <None Include="TemplatePro\.git\objects\ac\ba79975298d49105464c910155491d492c70ee" />
+    <None Include="TemplatePro\.git\objects\af\458751bafbb60883f57691f15e1faed723b2a2" />
+    <None Include="TemplatePro\.git\objects\b0\a4495d8c4f6681d3e0501ab3c816cc55272f2a" />
+    <None Include="TemplatePro\.git\objects\b0\c8e02f100557a17907fde986997c64d732b5d4" />
+    <None Include="TemplatePro\.git\objects\b0\d23dfb08e9346808143290ae74abb635b2ac37" />
+    <None Include="TemplatePro\.git\objects\b1\782c81068384f7319dda1e9ffcb48906648e25" />
+    <None Include="TemplatePro\.git\objects\b3\9009ee7dba75b4e0f34d6fda46cc66635a06fb" />
+    <None Include="TemplatePro\.git\objects\b5\fe5020758ff84f9c24c39af093fac7035a4a81" />
+    <None Include="TemplatePro\.git\objects\b6\36833e2ddd3e530006e64da120ded6ce902f65" />
+    <None Include="TemplatePro\.git\objects\b6\3ed8df76199dca4d66d0c9396e4013f586c980" />
+    <None Include="TemplatePro\.git\objects\b7\03dee9923a68901a99fb5e8825e0ca42a66edd" />
+    <None Include="TemplatePro\.git\objects\ba\379eea82ebe4c33d6ea24b7703c806da1216d6" />
+    <None Include="TemplatePro\.git\objects\ba\ffda33920ee46084c8ad9d9fb39f320a457b35" />
+    <None Include="TemplatePro\.git\objects\bb\d79dfb6f5079da42cb66ff7e9f1436caac3cc7" />
+    <None Include="TemplatePro\.git\objects\bc\90d9d3bc5319d5ceac34a36754634c764516ee" />
+    <None Include="TemplatePro\.git\objects\bd\36aa89bf351b75d241c70c117aa68c03a0a845" />
+    <None Include="TemplatePro\.git\objects\bd\f5fa25d786eb361cf621b3daec558d9bacfbfc" />
+    <None Include="TemplatePro\.git\objects\bf\8c6d6e798870f55c3d742b4c822365008d4f3c" />
+    <None Include="TemplatePro\.git\objects\c0\49bcdf225067ee481afd70407708bb047bfb91" />
+    <None Include="TemplatePro\.git\objects\c0\7e8de15e4f90427e8f974b124b1520548a3e1f" />
+    <None Include="TemplatePro\.git\objects\c0\fe2bffeee3dd9216a035755aa71f6d8f08880e" />
+    <None Include="TemplatePro\.git\objects\c3\eaddd35b530dc850f0365deb315a77d9ee9ded" />
+    <None Include="TemplatePro\.git\objects\c9\22c5d395e6db34502b8c39204f72f576b3a3ca" />
+    <None Include="TemplatePro\.git\objects\ca\1bdbb6fc702ed104148d05964523f76f6e54bb" />
+    <None Include="TemplatePro\.git\objects\ca\6c1d5458a642aeaea8e86efc6d241fe52be468" />
+    <None Include="TemplatePro\.git\objects\ca\7ee5a4e989cf30440a9bd979cb5f77b2eb79d4" />
+    <None Include="TemplatePro\.git\objects\ca\d5e0a613e4357256b4342f346f305dbd41ef58" />
+    <None Include="TemplatePro\.git\objects\ce\33fad93ec3eaf999340af187fbe212a4352338" />
+    <None Include="TemplatePro\.git\objects\d0\eb714ab449049792429dc9846e906a53ed069d" />
+    <None Include="TemplatePro\.git\objects\d1\280d0f507490df45cc81b0aed619728a618ccc" />
+    <None Include="TemplatePro\.git\objects\d1\603fa89cb426f7136b7a5048a9149b6148f11f" />
+    <None Include="TemplatePro\.git\objects\d4\14a47bdb648b06649dd75e93b7ee96a3e477a6" />
+    <None Include="TemplatePro\.git\objects\d5\5e9e8a590ca88a225aaa1d2e23c737825edda9" />
+    <None Include="TemplatePro\.git\objects\d9\89b39f0b2bf1e2a7f2840e9951b9835f7217aa" />
+    <None Include="TemplatePro\.git\objects\dc\70a06226f4ae1f6b547cb4347f1e0c32b98235" />
+    <None Include="TemplatePro\.git\objects\dd\562886042ffa67aa9c944c47566a8ceae90f17" />
+    <None Include="TemplatePro\.git\objects\dd\92e4d35a3df840a0fdb51e6cc83298b85ec13a" />
+    <None Include="TemplatePro\.git\objects\dd\fec30fc90bc1e5bb9f07a6fbd0459662bd01bc" />
+    <None Include="TemplatePro\.git\objects\df\afb2561e49bee6f2eaa8df90a3d076827d7591" />
+    <None Include="TemplatePro\.git\objects\e0\fd69f94adf946889ba00cdced1b90dc12160ab" />
+    <None Include="TemplatePro\.git\objects\e1\5c7536a26a5264851b8293d22a60c6913214c7" />
+    <None Include="TemplatePro\.git\objects\e2\91d4b24f0f3684bd1df4d579d5391c8d641eb5" />
+    <None Include="TemplatePro\.git\objects\e2\987417e2fc0f28681d1e3d7dbd1aa40f2ec7d6" />
+    <None Include="TemplatePro\.git\objects\e5\ddf9b397d745367b938815567feef823ea416a" />
+    <None Include="TemplatePro\.git\objects\e5\e5941342c7b8e0fd616b169350dfde5d509692" />
+    <None Include="TemplatePro\.git\objects\e7\5ee2541c3c339a3fa2be6a43a55b291a7804a1" />
+    <None Include="TemplatePro\.git\objects\e9\778bd451803e23cd237e21fd8220e34aa4ba93" />
+    <None Include="TemplatePro\.git\objects\e9\d25a130b682d688c94d63ea6b505a1451c2cdd" />
+    <None Include="TemplatePro\.git\objects\ea\ff4108629da0456245b76175496f10df7c3dd8" />
+    <None Include="TemplatePro\.git\objects\eb\a127ee73d64a0b243d73b05ff6d55c8e2216a4" />
+    <None Include="TemplatePro\.git\objects\f3\999614c8c604351c9ccb7481d0c42f37983824" />
+    <None Include="TemplatePro\.git\objects\f5\c0d7d6ab55b6c3fb7c907d85ccd20d3e43be0c" />
+    <None Include="TemplatePro\.git\objects\f8\0553dd33bc868b69d8f2af338ad88bd3268df6" />
+    <None Include="TemplatePro\.git\objects\fa\d0fae922df677c5d8043ad97e28f93e7095322" />
+    <None Include="TemplatePro\.git\objects\fc\3eaf112e6de943309e8841896def8dbf0bb7da" />
+    <None Include="TemplatePro\.git\objects\fe\bda6a98735a96707bfc124418b5878ae9875ad" />
+    <None Include="TemplatePro\.git\objects\pack\pack-9365c05bb885022768f5e7fb1e9141645d095eb4.idx" />
+    <None Include="TemplatePro\.git\objects\pack\pack-9365c05bb885022768f5e7fb1e9141645d095eb4.pack" />
+    <None Include="TemplatePro\.git\packed-refs" />
+    <None Include="TemplatePro\.git\refs\heads\main" />
+    <None Include="TemplatePro\.git\refs\remotes\origin\HEAD" />
+    <None Include="TemplatePro\.git\refs\remotes\origin\main" />
+    <None Include="TemplatePro\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TemplatePro\.git\objects\info\" />
+    <Folder Include="TemplatePro\.git\refs\tags\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

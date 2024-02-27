@@ -1,0 +1,10 @@
+C:\UnityProject\JuHeYaMainPro\Assets\Plugin\LoginCommon\LoginCommon.dll
+C:\UnityProject\JuHeYaMainPro\Assets\Plugin\LoginCommon\LoginCommon.pdb
+D:\C#Project\JuHeYaLoginSubServer\LoginCommon\obj\Debug\LoginCommon.csproj.AssemblyReference.cache
+D:\C#Project\JuHeYaLoginSubServer\LoginCommon\obj\Debug\LoginCommon.csproj.CoreCompileInputs.cache
+D:\C#Project\JuHeYaLoginSubServer\LoginCommon\obj\Debug\LoginCommon.dll
+D:\C#Project\JuHeYaLoginSubServer\LoginCommon\obj\Debug\LoginCommon.pdb
+D:\C#Project\XiaoYuanLoginSubServer\LoginCommon\obj\Debug\LoginCommon.csproj.AssemblyReference.cache
+D:\C#Project\XiaoYuanLoginSubServer\LoginCommon\obj\Debug\LoginCommon.csproj.CoreCompileInputs.cache
+D:\C#Project\XiaoYuanLoginSubServer\LoginCommon\obj\Debug\LoginCommon.dll
+D:\C#Project\XiaoYuanLoginSubServer\LoginCommon\obj\Debug\LoginCommon.pdb
