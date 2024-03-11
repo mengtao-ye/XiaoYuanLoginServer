@@ -2,25 +2,15 @@
 
 namespace SubServer
 {
-    public static class MySqlTools
+    public partial  class MySqlTools
     {
-        private static MySQLManager mManager;
-        private static bool IsInit {
-            get
-            {
-                return mManager != null;
-            }
-        }
         /// <summary>
-        /// 初始化MySQl管理器
+        /// 注册账号
         /// </summary>
-        /// <param name="manager"></param>
-        public static void InitMySQLManager(MySQLManager manager) 
-        {
-            mManager = manager;
-        }
-
-
+        /// <param name="account"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public static byte RegisterAccount(long account, string username, string password)
         {
 
@@ -54,7 +44,6 @@ namespace SubServer
             mysql.Recycle();
             return registerRes;
         }
-
         /// <summary>
         /// 检验账号密码是否正确
         /// </summary>
@@ -79,17 +68,48 @@ namespace SubServer
         /// <returns></returns>
         public static UserData GetUserDataByAccount(long account)
         {
-            UserData  tempUserData =  DictionaryModule<long, UserData>.Get(account);
-            if (tempUserData != null) 
+            UserData tempUserData = DictionaryModule<long, UserData>.Get(account);
+            if (tempUserData != null)
             {
                 return tempUserData;
             }
             MySQL findMySQL = ClassPool<MySQL>.Pop();
             findMySQL.SetData(MySQLTableData.users, "account", account.ToString());
             UserData userData = mManager.FindPool<UserData>(findMySQL);
+            findMySQL.Recycle();
             if (userData.IsNull()) return null;
             DictionaryModule<long, UserData>.Add(account, userData);
             return userData;
+        }
+        /// <summary>
+        /// 获取玩家信息
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static UserData GetUserDataByUserID(long id)
+        {
+            UserData userDataTemp = null;
+            DictionaryModule<long, UserData>.data.Foreach(UserDataForeach,id, userDataTemp);
+            if (userDataTemp != null)
+            {
+                return userDataTemp;
+            }
+            MySQL findMySQL = ClassPool<MySQL>.Pop();
+            findMySQL.SetData(MySQLTableData.users, "id", id.ToString());
+            UserData userData = mManager.FindPool<UserData>(findMySQL);
+            findMySQL.Recycle();
+            if (userData.IsNull()) return null;
+            DictionaryModule<long, UserData>.Add(userData.Account, userData);
+            return userData;
+        }
+        private static bool UserDataForeach(long account,UserData userData,long id,UserData outData)
+        {
+            if (userData != null && userData.ID == id) 
+            {
+                outData = userData;
+                return true;
+            }
+            return false;
         }
     }
 }

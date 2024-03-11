@@ -11,7 +11,6 @@ namespace SubServer
         public string Password;
         public string HeadURL;
         public string IDCard;
-        private byte[] mDatas;
 
         public override void Recycle()
         {
@@ -30,19 +29,16 @@ namespace SubServer
 
         public override byte[] ToBytes()
         {
-            if (mDatas == null) 
-            {
-                IListData<byte[]> bytes = ClassPool<ListData<byte[]>>.Pop();
-                bytes.Add(ID.ToBytes());
-                bytes.Add(Account.ToBytes());
-                bytes.Add(Username.ToBytes());
-                bytes.Add(Password.ToBytes());
-                bytes.Add(HeadURL.ToBytes());
-                bytes.Add(IDCard.ToBytes());
-                mDatas = bytes.list.ToBytes();
-                bytes.Recycle();
-            }
-            return mDatas;
+            IListData<byte[]> bytes = ClassPool<ListData<byte[]>>.Pop();
+            bytes.Add(ID.ToBytes());
+            bytes.Add(Account.ToBytes());
+            bytes.Add(Username.ToBytes());
+            bytes.Add(Password.ToBytes());
+            bytes.Add(HeadURL.ToBytes());
+            bytes.Add(IDCard.ToBytes());
+            byte[] returnBytes = bytes.list.ToBytes();
+            bytes.Recycle();
+            return returnBytes;
         }
 
         public override void ToValue(byte[] data)
