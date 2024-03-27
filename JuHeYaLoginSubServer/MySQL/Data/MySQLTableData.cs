@@ -8,5 +8,6 @@
         public const string chat_msg_list= "chat_msg_list";
         public const string friend_pair= "friend_pair";
         public const string add_friend_request_list= "add_friend_request_list";
+        public const string campus_circle= "campus_circle";
     }
 }

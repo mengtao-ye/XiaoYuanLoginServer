@@ -28,7 +28,31 @@ namespace SubServer
             Add((short)LoginUdpCode.GetAddFriendRequest, GetAddFriendRequest);
             Add((short)LoginUdpCode.RefuseFriend, RefuseFriend);
             Add((short)LoginUdpCode.ConfineFriend, ConfineFriend);
+            Add((short)LoginUdpCode.SendChatMsg, SendChatMsg);
+            Add((short)LoginUdpCode.PublishCampusCircle, PublishCampusCircle);
         }
+
+        /// <summary>
+        /// 发布校友圈
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] PublishCampusCircle(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            IListData<byte[]> listData = data.ToListBytes();
+            if (listData.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            long account = listData[0].ToLong();
+            string content = listData[1].ToStr();
+            string images  = listData[2].ToStr();
+            bool isSchool = listData[3].ToBool();
+            long time = DateTimeOffset.Now.ToUnixTimeSeconds();
+            listData.Recycle();
+            bool res = MySqlTools.PublishCampusCircle(account, content, images, isSchool, time);
+            return res.ToBytes();
+        }
+
         /// <summary>
         /// 同意好友申请
         /// </summary>
@@ -161,8 +185,20 @@ namespace SubServer
             byte msgType = list[2].ToByte();
             string content = list[3].ToStr();
             long time = list[4].ToLong();
-            MySqlTools.AddChatMsg(sendAccount, receiveAccount, msgType, content, time);
-            return null;
+            long id = 0;
+            bool res  = MySqlTools.AddChatMsg(sendAccount, receiveAccount, msgType, content, time,out id);
+            byte[] returnBytes = null;
+            if (res)
+            {
+                list.Add(id.ToBytes());
+                returnBytes = ByteTools.Concat(res.ToBytes(), list.list.ToBytes());
+            }
+            else 
+            {
+                returnBytes = res.ToBytes();
+            }
+            list.Recycle();
+            return returnBytes;
         }
         /// <summary>
         /// 获取新消息

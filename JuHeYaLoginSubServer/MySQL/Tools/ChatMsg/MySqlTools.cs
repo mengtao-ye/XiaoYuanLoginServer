@@ -83,6 +83,12 @@ namespace SubServer
             IDictionaryData<string, string> dict = ClassPool<DictionaryData<string, string>>.Pop();
             dict.Add("user_account", account.ToString());
             dict.Add("friend_account", friendAccount.ToString());
+            UserData userData = MySqlTools.GetUserDataByAccount(friendAccount);
+            if (userData == null) {
+                Debug.LogError("friendAccount:"+ friendAccount+"未找到该用户");
+                return false;
+            }
+            dict.Add("notes", userData.Username.ToString());
             mysql.SetData(MySQLTableData.friend_pair, dict);
             bool res = mManager.Add(mysql);
             mysql.Recycle();
@@ -134,6 +140,28 @@ namespace SubServer
             return b;
         }
 
+        /// <summary>
+        /// 添加聊天信息
+        /// </summary>
+        /// <param name="sendAccount"></param>
+        /// <param name="receiveAccount"></param>
+        /// <param name="msgType"></param>
+        /// <param name="chatMsg"></param>
+        /// <param name="time"></param>
+        public static bool AddChatMsg(long sendAccount, long receiveAccount, byte msgType, string chatMsg, long time,out long lastID)
+        {
+            MySQL mysql = ClassPool<MySQL>.Pop();
+            IDictionaryData<string, string> dict = ClassPool<DictionaryData<string, string>>.Pop();
+            dict.Add("send_userid", sendAccount.ToString());
+            dict.Add("receive_userid", receiveAccount.ToString());
+            dict.Add("msg_type", msgType.ToString());
+            dict.Add("chat_msg", chatMsg.ToString());
+            dict.Add("time", time.ToString());
+            mysql.SetData(MySQLTableData.chat_msg_list, dict);
+            bool res = mManager.Add(mysql, out lastID);
+            mysql.Recycle();
+            return res;
+        }
         /// <summary>
         /// 添加聊天信息
         /// </summary>

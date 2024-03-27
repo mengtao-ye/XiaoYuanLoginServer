@@ -23,5 +23,8 @@
         GetAddFriendRequest = LoginRequestCode.Login + 14,//获取添加好友请求列表
         RefuseFriend = LoginRequestCode.Login + 15,//拒绝好友申请
         ConfineFriend = LoginRequestCode.Login + 16,//同意好友申请
+
+        //CampusCircle
+        PublishCampusCircle = LoginRequestCode.Login + 17,//发表校友圈
     }
 }
