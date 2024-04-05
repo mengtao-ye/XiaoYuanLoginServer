@@ -7,8 +7,7 @@ namespace SubServer
     {
         public int schoolID;
         public string name;
-        public string icon;
-        public string bg;
+        public long code;//学校编码
 
         public override void Recycle()
         {
@@ -19,8 +18,7 @@ namespace SubServer
         {
             schoolID = reader.GetValue(0).ToInt();
             name = reader.GetValue(1).ToString();
-            icon = reader.GetValue(2).ToString();
-            bg = reader.GetValue(3).ToString();
+            code = reader.GetValue(2).ToLong();
         }
 
         public override byte[] ToBytes()
@@ -28,8 +26,7 @@ namespace SubServer
             IListData<byte[]> list = ClassPool<ListData<byte[]>>.Pop();
             list.Add(schoolID.ToBytes());
             list.Add(name.ToBytes());
-            list.Add(icon.ToBytes());
-            list.Add(bg.ToBytes());
+            list.Add(code.ToBytes());
             byte[] bytes = list.list.ToBytes();
             list.Recycle();
             return bytes;
@@ -40,8 +37,7 @@ namespace SubServer
             IListData<byte[]> list = data.ToListBytes();
             schoolID = list[0].ToInt();
             name = list[1].ToString();
-            icon = list[2].ToString();
-            bg = list[3].ToString();
+            code = list[2].ToLong();
             list.Recycle();
         }
     }

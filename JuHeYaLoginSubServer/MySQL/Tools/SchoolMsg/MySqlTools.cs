@@ -8,9 +8,9 @@ namespace SubServer
         /// 加入学校
         /// </summary>
         /// <param name="account"></param>
-        /// <param name="schoolID"></param>
+        /// <param name="schoolCode"></param>
         /// <returns></returns>
-        public static byte JoinSchool(long account,int schoolID) 
+        public static byte JoinSchool(long account,long schoolCode) 
         {
             //ReturnCode 0失败  1成功 2已加入
             byte returnCode = 0;
@@ -26,7 +26,7 @@ namespace SubServer
             MySQL addSql = ClassPool<MySQL>.Pop();
             IDictionaryData<string, string> pair = ClassPool<DictionaryData<string, string>>.Pop();
             pair.Add("account",account.ToString());
-            pair.Add("school_id",schoolID.ToString());
+            pair.Add("school_code",schoolCode.ToString());
             addSql.SetData(MySQLTableData.school_pair, pair);
             bool res = mManager.Add(addSql);
             if (res)
@@ -61,20 +61,20 @@ namespace SubServer
         /// </summary>
         /// <param name="account"></param>
         /// <returns></returns>
-        public static SchoolData GetSchoolData(int schoolID)
+        public static SchoolData GetSchoolData(long schoolCode)
         {
-            SchoolData tempSchool = DictionaryModule<int, SchoolData>.Get(schoolID);
+            SchoolData tempSchool = DictionaryModule<long, SchoolData>.Get(schoolCode);
             if (tempSchool != null)
             {
                 return tempSchool;
             }
             MySQL findMySQL = ClassPool<MySQL>.Pop();
             IDictionaryData<string, string> dict = ClassPool<DictionaryData<string, string>>.Pop();
-            findMySQL.SetData(MySQLTableData.schools, "id", schoolID.ToString());
+            findMySQL.SetData(MySQLTableData.schools, "code", schoolCode.ToString());
             SchoolData schoolData = mManager.FindPool<SchoolData>(findMySQL);
             findMySQL.Recycle();
             if (schoolData.IsNull()) return null;
-            DictionaryModule<int, SchoolData>.Add(schoolID, schoolData);
+            DictionaryModule<long, SchoolData>.Add(schoolCode, schoolData);
             return schoolData;
         }
 
@@ -86,9 +86,9 @@ namespace SubServer
         public static IListData<SchoolData> SearchSchoolsData(string name)
         {
             IListData<SchoolData> schoolList = ClassPool<ListData<SchoolData>>.Pop();
-            if (!DictionaryModule<int, SchoolData>.data.IsNullOrEmpty())
+            if (!DictionaryModule<long, SchoolData>.data.IsNullOrEmpty())
             {
-                DictionaryModule<int, SchoolData>.data.Foreach(SchoolDictForeach, schoolList, name);
+                DictionaryModule<long, SchoolData>.data.Foreach(SchoolDictForeach, schoolList, name);
             }
             if (schoolList.Count >= 10) return schoolList;
             IListData<CompareItem> compares = null;
@@ -133,7 +133,7 @@ namespace SubServer
                     {
                         schoolList.Add(schoolData.list[i]);
                     }
-                    DictionaryModule<int, SchoolData>.Add(schoolData.list[i].schoolID, schoolData.list[i]);
+                    DictionaryModule<long, SchoolData>.Add(schoolData.list[i].schoolID, schoolData.list[i]);
                 }
             }
             schoolData?.Recycle();
@@ -144,11 +144,11 @@ namespace SubServer
         /// <summary>
         /// 遍历学校列表
         /// </summary>
-        /// <param name="schoolID"></param>
+        /// <param name="schoolCode"></param>
         /// <param name="data"></param>
         /// <param name="listData"></param>
         /// <param name="name"></param>
-        private static bool SchoolDictForeach(int schoolID, SchoolData data, IListData<SchoolData> listData, string name)
+        private static bool SchoolDictForeach(long schoolCode, SchoolData data, IListData<SchoolData> listData, string name)
         {
             if (listData.Count >= 10)
             {

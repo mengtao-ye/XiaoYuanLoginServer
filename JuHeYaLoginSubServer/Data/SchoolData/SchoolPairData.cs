@@ -6,7 +6,7 @@ namespace SubServer
     public class SchoolPairData : BaseMySqlReflection
     {
         public long account;
-        public int schoolID;
+        public long schoolCode;
 
         public override void Recycle()
         {
@@ -16,14 +16,14 @@ namespace SubServer
         public override void ReflectionMySQLData(MySqlDataReader reader)
         {
             account = reader.GetValue(0).ToLong();
-            schoolID = reader.GetValue(1).ToInt();
+            schoolCode = reader.GetValue(1).ToLong();
         }
 
         public override byte[] ToBytes()
         {
             IListData<byte[]> list = ClassPool<ListData<byte[]>>.Pop();
             list.Add(account.ToBytes());
-            list.Add(schoolID.ToBytes());
+            list.Add(schoolCode.ToBytes());
             byte[] bytes = list.list.ToBytes();
             list.Recycle();
             return bytes;
@@ -33,7 +33,7 @@ namespace SubServer
         {
             IListData<byte[]> list = data.ToListBytes();
             account = list[0].ToLong();
-            schoolID = list[1].ToInt();
+            schoolCode = list[1].ToLong();
             list.Recycle();
         }
     }

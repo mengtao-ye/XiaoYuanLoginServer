@@ -3,28 +3,26 @@ using YSF;
 
 namespace SubServer
 {
-    public class UserData : BaseMySqlReflection
+    public class CampusCircleCommitData : BaseMySqlReflection
     {
         public int ID;
         public long Account;
-        public string Username;
-        public string Password;
-        public bool IsSetHead;
-        public string IDCard;
+        public long CampusCircleID;
+        public long ReplayID;
+        public string Content;
 
         public override void Recycle()
         {
-            ClassPool<UserData>.Push(this);
+            ClassPool<CampusCircleCommitData>.Push(this);
         }
 
         public override void ReflectionMySQLData(MySqlDataReader reader)
         {
             ID = reader.GetValue(0).ToInt();
             Account = reader.GetValue(1).ToLong();
-            Username = reader.GetValue(2).ToString();
-            Password = reader.GetValue(3).ToString();
-            IsSetHead = reader.GetBoolean(4);
-            IDCard = reader.GetValue(5).ToString();
+            CampusCircleID = reader.GetValue(2).ToLong();
+            ReplayID = reader.GetValue(3).ToLong();
+            Content = reader.GetValue(4).ToString();
         }
 
         public override byte[] ToBytes()
@@ -32,10 +30,9 @@ namespace SubServer
             IListData<byte[]> bytes = ClassPool<ListData<byte[]>>.Pop();
             bytes.Add(ID.ToBytes());
             bytes.Add(Account.ToBytes());
-            bytes.Add(Username.ToBytes());
-            bytes.Add(Password.ToBytes());
-            bytes.Add(IsSetHead.ToBytes());
-            bytes.Add(IDCard.ToBytes());
+            bytes.Add(CampusCircleID.ToBytes());
+            bytes.Add(ReplayID.ToBytes());
+            bytes.Add(Content.ToBytes());
             byte[] returnBytes = bytes.list.ToBytes();
             bytes.Recycle();
             return returnBytes;
@@ -46,10 +43,9 @@ namespace SubServer
             IListData<byte[]> bytes = data.ToListBytes();
             ID = bytes[0].ToInt();
             Account = bytes[1].ToLong();
-            Username = bytes[2].ToStr();
-            Password = bytes[3].ToStr();
-            IsSetHead = bytes[4].ToBool();
-            IDCard = bytes[5].ToString();
+            CampusCircleID = bytes[2].ToLong();
+            ReplayID = bytes[3].ToLong();
+            Content = bytes[4].ToStr();
             bytes.Recycle();
         }
     }

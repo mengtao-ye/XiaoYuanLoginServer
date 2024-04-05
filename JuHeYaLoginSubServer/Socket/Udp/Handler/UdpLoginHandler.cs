@@ -30,8 +30,95 @@ namespace SubServer
             Add((short)LoginUdpCode.ConfineFriend, ConfineFriend);
             Add((short)LoginUdpCode.SendChatMsg, SendChatMsg);
             Add((short)LoginUdpCode.PublishCampusCircle, PublishCampusCircle);
+            Add((short)LoginUdpCode.GetCampusCircle, GetCampusCircle);
+            Add((short)LoginUdpCode.GetCampusCircleItemDetail, GetCampusCircleItemDetail);
+            Add((short)LoginUdpCode.LikeCampusCircleItem, LikeCampusCircleItem);
+            Add((short)LoginUdpCode.HasLikeCampusCircleItem, HasLikeCampusCircleItem);
+            Add((short)LoginUdpCode.GetCommit, GetCommit);
+        }
+        /// <summary>
+        /// 获取评论信息
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] GetCommit(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            long campusCircleID = data.ToLong();
+            long lastID = data.ToLong(8);
+            IListData<CampusCircleCommitData> list = MySqlTools.GetCommit(campusCircleID, lastID);
+            if (list.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            byte[] returnBytes = list.list.ToBytes();
+            list.Recycle();
+            return returnBytes;
+        }
+        /// <summary>
+        /// 朋友圈点赞
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] HasLikeCampusCircleItem(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            long account = data.ToLong();
+            long campusCircleID = data.ToLong(8);
+            bool res =  MySqlTools.HasLikeCampusCircleItem(account, campusCircleID);
+            return ByteTools.Concat(campusCircleID.ToBytes(), res.ToBytes());
         }
 
+        /// <summary>
+        /// 朋友圈点赞
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] LikeCampusCircleItem(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            long account = data.ToLong();
+            long campusCircleID = data.ToLong(8);
+            bool isLike = data.ToBool(16);
+            MySqlTools.LikeCampusCircleItem(account, campusCircleID,isLike);
+            return ByteTools.Concat(campusCircleID.ToBytes(),(!isLike).ToBytes()) ;
+        }
+        /// <summary>
+        /// 获取校友圈对象详情
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] GetCampusCircleItemDetail(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            long id = data.ToLong();
+            CampusCircleData target = MySqlTools.GetCampusCircleItemDetail(id);
+            if (target == null) return BytesConst.FALSE_BYTES;
+            return target.ToBytes();
+        }
+
+        /// <summary>
+        /// 获取校友圈信息
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] GetCampusCircle(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            IListData<byte[]> listData = data.ToListBytes();
+            if (listData.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            long account = listData[0].ToLong();
+            long lastID = listData[1].ToLong();
+            long schoolCode = listData[2].ToLong();
+            listData.Recycle();
+            IListData<long> list = MySqlTools.GetCampusCircle(account, lastID, schoolCode);
+            if(list .IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            byte[] returnBytes = list.list.ToBytes();
+            list.Recycle();
+            return returnBytes;
+        }
         /// <summary>
         /// 发布校友圈
         /// </summary>
@@ -228,12 +315,12 @@ namespace SubServer
         {
             if (data.IsNullOrEmpty()) return null;
             long account = data.ToLong(0);
-            int schoolID = data.ToInt(8);
-            byte res = MySqlTools.JoinSchool(account,schoolID);
+            long schoolCode = data.ToLong(8);
+            byte res = MySqlTools.JoinSchool(account, schoolCode);
             byte[] returnBytes = null;
             if (res == 1)
             {
-                returnBytes = ByteTools.Concat(res, schoolID.ToBytes());
+                returnBytes = ByteTools.Concat(res, schoolCode.ToBytes());
             }
             else
             {
@@ -254,8 +341,8 @@ namespace SubServer
         private byte[] GetSchoolData(byte[] data, EndPoint endPoint)
         {
             if (data.IsNullOrEmpty()) return null;
-            int schoolID= data.ToInt();
-            SchoolData schoolData = MySqlTools.GetSchoolData(schoolID);
+            long schoolCode= data.ToLong();
+            SchoolData schoolData = MySqlTools.GetSchoolData(schoolCode);
             if (schoolData == null) return null;
             return schoolData.ToBytes();
         }
@@ -264,12 +351,12 @@ namespace SubServer
             if (data.IsNullOrEmpty()) return null;
             long account = data.ToLong();
             SchoolPairData schoolPairData = MySqlTools.GetSchoolPairData(account);
-            int schoolID = 0;
+            long schoolCode = 0;
             if (schoolPairData != null) 
             {
-                schoolID = schoolPairData.schoolID;
+                schoolCode = schoolPairData.schoolCode;
             }
-            return schoolID.ToBytes();
+            return schoolCode.ToBytes();
         }
 
         private byte[] GetUserData(byte[] data, EndPoint endPoint)

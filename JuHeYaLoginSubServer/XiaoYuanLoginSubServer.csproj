@@ -54,6 +54,8 @@
     <Compile Include="Controller\Data\ControllerType.cs" />
     <Compile Include="Controller\Entity\LoginSubServerHeartBeatController.cs" />
     <Compile Include="Controller\Entity\RegisterLoginSubServerController.cs" />
+    <Compile Include="Data\CampusCircleData\CampusCircleCommitData.cs" />
+    <Compile Include="Data\CampusCircleData\CampusCircleData.cs" />
     <Compile Include="Data\ChatData\ChatData.cs" />
     <Compile Include="Data\ChatData\ChatMsgType.cs" />
     <Compile Include="Data\FriendData\AddFriendRequestData.cs" />
@@ -78,8 +80,10 @@
     <Compile Include="Module\ThreadModule\ThreadModule.cs" />
     <Compile Include="MySQL\Data\MySQLTableData.cs" />
     <Compile Include="MySQL\Tools\BaseMsg\MySqlTools.cs" />
+    <Compile Include="MySQL\Tools\CampusCircle\MySqlTools.cs" />
     <Compile Include="MySQL\Tools\ChatMsg\MySqlTools.cs" />
     <Compile Include="MySQL\Tools\MyMsg\MySqlTools.cs" />
+    <Compile Include="MySQL\Tools\MySQLCommandStr.cs" />
     <Compile Include="MySQL\Tools\SchoolMsg\MySqlTools.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -154,13 +158,14 @@
     <Compile Include="TemplatePro\MySql\Command\Entity\Compare\COMPAREs.cs" />
     <Compile Include="TemplatePro\MySql\Command\Entity\Compare\COMPARE.cs" />
     <Compile Include="TemplatePro\MySql\Command\Entity\Data\DATABASE.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\HeadKey\UPDATE.cs" />
     <Compile Include="TemplatePro\MySql\Command\Entity\Insert\VALUES.cs" />
     <Compile Include="TemplatePro\MySql\Command\Entity\KeyWord\KEYWORD.cs" />
     <Compile Include="TemplatePro\MySql\Command\Entity\Like\LIKE.cs" />
     <Compile Include="TemplatePro\MySql\Command\Entity\Limit\LIMIT.cs" />
     <Compile Include="TemplatePro\MySql\Command\Entity\Order\ORDER.cs" />
-    <Compile Include="TemplatePro\MySql\Command\Entity\Select\SELECT.cs" />
-    <Compile Include="TemplatePro\MySql\Command\Entity\Update\UPDATES.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\HeadKey\SELECT.cs" />
+    <Compile Include="TemplatePro\MySql\Command\Entity\Updates\UPDATES.cs" />
     <Compile Include="TemplatePro\MySql\Command\MySQLCommand.cs" />
     <Compile Include="TemplatePro\MySql\Data\MySQLData.cs" />
     <Compile Include="TemplatePro\MySql\MySQLCommond\Base\BaseMySQL.cs" />

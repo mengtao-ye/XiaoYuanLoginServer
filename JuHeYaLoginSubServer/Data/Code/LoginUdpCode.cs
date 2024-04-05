@@ -26,5 +26,14 @@
 
         //CampusCircle
         PublishCampusCircle = LoginRequestCode.Login + 17,//发表校友圈
+        GetCampusCircle = LoginRequestCode.Login + 18,//获取朋友圈
+        GetCampusCircleItemDetail = LoginRequestCode.Login + 19,//获取朋友圈对象详情 
+        LikeCampusCircleItem = LoginRequestCode.Login + 20,//朋友圈点赞 
+        HasLikeCampusCircleItem = LoginRequestCode.Login + 21,//是否朋友圈点赞
+        GetCommit = LoginRequestCode.Login + 22,//获取评论信息
+                                                    
+
+
+
     }
 }

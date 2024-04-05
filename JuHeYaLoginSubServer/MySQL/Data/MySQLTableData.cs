@@ -9,5 +9,7 @@
         public const string friend_pair= "friend_pair";
         public const string add_friend_request_list= "add_friend_request_list";
         public const string campus_circle= "campus_circle";
+        public const string campus_circle_like = "campus_circle_like";
+        public const string campus_circle_commit = "campus_circle_commit";
     }
 }
