@@ -35,6 +35,200 @@ namespace SubServer
             Add((short)LoginUdpCode.LikeCampusCircleItem, LikeCampusCircleItem);
             Add((short)LoginUdpCode.HasLikeCampusCircleItem, HasLikeCampusCircleItem);
             Add((short)LoginUdpCode.GetCommit, GetCommit);
+            Add((short)LoginUdpCode.PublishLostData, PublishLostData);
+            Add((short)LoginUdpCode.GetMyLostData, GetMyLostData);
+            Add((short)LoginUdpCode.ReleasePartTimeJob, ReleasePartTimeJob);
+            Add((short)LoginUdpCode.GetMyReleasePartTimeJob, GetMyReleasePartTimeJob);
+            Add((short)LoginUdpCode.GetPartTimeJobList, GetPartTimeJobList);
+            Add((short)LoginUdpCode.ApplicationPartTimeJob, ApplicationPartTimeJob);
+            Add((short)LoginUdpCode.GetApplicationPartTimeJob, GetApplicationPartTimeJob);
+            Add((short)LoginUdpCode.ReleaseUnuse, ReleaseUnuse);
+            Add((short)LoginUdpCode.GetUnuseList, GetUnuseList);
+        }
+        /// <summary>
+        /// 获取闲置列表
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] GetUnuseList(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            long account = data.ToLong();
+            int lastID = data.ToInt(8);
+            byte type = data[12];
+            UnuseData unuseData = MySqlTools.GetUnuseList(account, lastID, type);
+            if (unuseData == null)
+            {
+                return BytesConst.FALSE_BYTES;
+            }
+            byte[] returnBytes = unuseData.ToBytes();
+            unuseData.Recycle();
+            return returnBytes;
+        }
+
+        /// <summary>
+        /// 发布闲置
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] ReleaseUnuse(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            IListData<byte[]> list = data.ToListBytes();
+            string content = list[0].ToStr();
+            IListData<SelectImageData> selectImageData = SelectImageDataTools.GetData(list[1]);
+            string images = SelectImageDataTools.GetStr(selectImageData);
+            selectImageData.Recycle();
+            byte selectType = list[2].ToByte();
+            int price = list[3].ToInt();
+            long time = list[4].ToLong();
+            long account = list[5].ToLong();
+            list.Recycle();
+            bool res = MySqlTools.AddUnuse(content, images, selectType, price, time, account);
+            return res.ToBytes();
+        }
+        /// <summary>
+        /// 获取报名兼职列表
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] GetApplicationPartTimeJob(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            int partTimeJobID = data.ToInt();
+            int lastID = data.ToInt(4);
+            IListData<PartTimeJobApplicationData> listData = MySqlTools.GetApplicationPartTimeJobList(partTimeJobID,lastID);
+            if(listData .IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            byte[] sendBytes = listData.list.ToBytes();
+            listData.Recycle();
+            return sendBytes;
+        }
+
+        /// <summary>
+        /// 报名兼职
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] ApplicationPartTimeJob(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            IListData<byte[]> listData = data.ToListBytes();
+            long account = listData[0].ToLong();
+            int partTimeJobID = listData[1].ToInt();
+            string name = listData[2].ToStr();
+            bool isMan = listData[3].ToBool();
+            int age = listData[4].ToInt();
+            string call = listData[5].ToStr();
+            listData.Recycle();
+            bool res = MySqlTools.ApplicationPartTimeJob(account,partTimeJobID,name,isMan,age,call);
+            return res.ToBytes();
+        }
+
+        /// <summary>
+        /// 获取兼职列表
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] GetPartTimeJobList(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            int lastID = data.ToInt();
+            MyReleasePartTimeJobData res = MySqlTools.GetPartTimeJobList(lastID);
+            if (res == null) return BytesConst.FALSE_BYTES;
+            byte[] bytes = res.ToBytes();
+            res.Recycle();
+            return bytes;
+        }
+
+        /// <summary>
+        /// 获取我发布的兼职
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] GetMyReleasePartTimeJob(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            long account = data.ToLong();
+            int lastID = data.ToInt(8);
+            MyReleasePartTimeJobData res = MySqlTools.GetMyReleasePartTimeJob(account, lastID);
+            if(res == null) return BytesConst.FALSE_BYTES;
+            byte[] bytes = res.ToBytes();
+            res.Recycle();
+            return bytes;
+        }
+
+        /// <summary>
+        /// 发布兼职
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] ReleasePartTimeJob(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            IListData<byte[]> list = data.ToListBytes();
+            string title = list[0].ToStr();
+            int price = list[1].ToInt();
+            int priceType = list[2].ToInt();
+            string jobTime = list[3].ToStr();
+            string position = list[4].ToStr();
+            string detail = list[5].ToStr();
+            long account = list[6].ToLong();
+            list.Recycle();
+            bool res =  MySqlTools.AddPartTimeJob(title,price,priceType,jobTime,position,detail,account);
+            return res.ToBytes();
+        }
+        /// <summary>
+        /// 获取我的失物招领信息
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] GetMyLostData(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            long account = data.ToLong();
+            int lastID = data.ToInt(8);
+            IListData<LostData> listData = MySqlTools.GetLost(account, lastID);
+            if (listData.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            byte[] returnBytes = listData.list.ToBytes();
+            listData.Recycle();
+            return returnBytes;
+        }
+
+        /// <summary>
+        /// 发布失物招领信息
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] PublishLostData(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            IDictionaryData<byte, byte[]> dict = data.ToBytesDictionary();
+            string name = dict[0].ToStr();
+            string pos = "";
+            if (dict.ContainsKey(1))
+            {
+                pos = dict[1].ToStr();
+            }
+            long startTime = dict[2].ToLong();
+            long endTime = dict[3].ToLong();
+            long account = dict[4].ToLong();
+            string images = "";
+            if (dict.ContainsKey(5))
+            {
+                images = dict[5].ToStr();
+            }
+            dict.Recycle();
+            bool res = MySqlTools.AddLost(name, pos, startTime, endTime, account, images);
+            return res.ToBytes();
         }
         /// <summary>
         /// 获取评论信息
@@ -64,7 +258,7 @@ namespace SubServer
             if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
             long account = data.ToLong();
             long campusCircleID = data.ToLong(8);
-            bool res =  MySqlTools.HasLikeCampusCircleItem(account, campusCircleID);
+            bool res = MySqlTools.HasLikeCampusCircleItem(account, campusCircleID);
             return ByteTools.Concat(campusCircleID.ToBytes(), res.ToBytes());
         }
 
@@ -80,8 +274,8 @@ namespace SubServer
             long account = data.ToLong();
             long campusCircleID = data.ToLong(8);
             bool isLike = data.ToBool(16);
-            MySqlTools.LikeCampusCircleItem(account, campusCircleID,isLike);
-            return ByteTools.Concat(campusCircleID.ToBytes(),(!isLike).ToBytes()) ;
+            MySqlTools.LikeCampusCircleItem(account, campusCircleID, isLike);
+            return ByteTools.Concat(campusCircleID.ToBytes(), (!isLike).ToBytes());
         }
         /// <summary>
         /// 获取校友圈对象详情
@@ -114,7 +308,7 @@ namespace SubServer
             long schoolCode = listData[2].ToLong();
             listData.Recycle();
             IListData<long> list = MySqlTools.GetCampusCircle(account, lastID, schoolCode);
-            if(list .IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            if (list.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
             byte[] returnBytes = list.list.ToBytes();
             list.Recycle();
             return returnBytes;
@@ -132,7 +326,7 @@ namespace SubServer
             if (listData.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
             long account = listData[0].ToLong();
             string content = listData[1].ToStr();
-            string images  = listData[2].ToStr();
+            string images = listData[2].ToStr();
             bool isSchool = listData[3].ToBool();
             long time = DateTimeOffset.Now.ToUnixTimeSeconds();
             listData.Recycle();
@@ -182,7 +376,7 @@ namespace SubServer
             long account = data.ToLong();
             int lastAddFriendID = data.ToInt(8);
             IListData<AddFriendRequestData> listData = MySqlTools.GetAddFriendRequestList(account, lastAddFriendID);
-            if (listData .IsNullOrEmpty()) return null;
+            if (listData.IsNullOrEmpty()) return null;
             byte[] returnBytes = listData.list.ToBytes();
             listData.Recycle();
             return returnBytes;
@@ -222,7 +416,7 @@ namespace SubServer
             UserData userData = null;
             if (isByUserID)
             {
-                 userData = MySqlTools.GetUserDataByUserID(friendMsg);
+                userData = MySqlTools.GetUserDataByUserID(friendMsg);
             }
             else
             {
@@ -234,7 +428,7 @@ namespace SubServer
                 return BytesConst.FALSE_BYTES;
             }
             bool isFriend = MySqlTools.IsFriend(myAccount, userData.Account);
-            return ByteTools.Concat(isFriend.ToBytes(),userData.Account.ToBytes());
+            return ByteTools.Concat(isFriend.ToBytes(), userData.Account.ToBytes());
         }
         /// <summary>
         /// 加入学校
@@ -248,7 +442,7 @@ namespace SubServer
             long account = data.ToLong(0);
             int friendListID = data.ToInt(8);
             IListData<FriendPairData> listData = MySqlTools.GetFriendPair(account, friendListID);
-            if (listData.IsNullOrEmpty()) 
+            if (listData.IsNullOrEmpty())
             {
                 return BytesConst.Empty;
             }
@@ -273,14 +467,14 @@ namespace SubServer
             string content = list[3].ToStr();
             long time = list[4].ToLong();
             long id = 0;
-            bool res  = MySqlTools.AddChatMsg(sendAccount, receiveAccount, msgType, content, time,out id);
+            bool res = MySqlTools.AddChatMsg(sendAccount, receiveAccount, msgType, content, time, out id);
             byte[] returnBytes = null;
             if (res)
             {
                 list.Add(id.ToBytes());
                 returnBytes = ByteTools.Concat(res.ToBytes(), list.list.ToBytes());
             }
-            else 
+            else
             {
                 returnBytes = res.ToBytes();
             }
@@ -333,7 +527,7 @@ namespace SubServer
             if (data.IsNullOrEmpty()) return null;
             string name = data.ToStr();
             IListData<SchoolData> schoolDatas = MySqlTools.SearchSchoolsData(name);
-            if (schoolDatas .IsNullOrEmpty()) return null;
+            if (schoolDatas.IsNullOrEmpty()) return null;
             byte[] returnBytes = schoolDatas.list.ToBytes();
             schoolDatas.Recycle();
             return returnBytes;
@@ -341,7 +535,7 @@ namespace SubServer
         private byte[] GetSchoolData(byte[] data, EndPoint endPoint)
         {
             if (data.IsNullOrEmpty()) return null;
-            long schoolCode= data.ToLong();
+            long schoolCode = data.ToLong();
             SchoolData schoolData = MySqlTools.GetSchoolData(schoolCode);
             if (schoolData == null) return null;
             return schoolData.ToBytes();
@@ -352,7 +546,7 @@ namespace SubServer
             long account = data.ToLong();
             SchoolPairData schoolPairData = MySqlTools.GetSchoolPairData(account);
             long schoolCode = 0;
-            if (schoolPairData != null) 
+            if (schoolPairData != null)
             {
                 schoolCode = schoolPairData.schoolCode;
             }
@@ -375,7 +569,7 @@ namespace SubServer
         private byte[] RegisterAccount(byte[] data, EndPoint endPoint)
         {
             if (data.IsNullOrEmpty()) return null;
-            IListData< byte[]> item = data.ToListBytes();
+            IListData<byte[]> item = data.ToListBytes();
             long account = item[0].ToLong();
             string userName = item[1].ToStr();
             string password = item[2].ToStr();
@@ -399,7 +593,7 @@ namespace SubServer
                 loginRes = 1;
                 UserData userData = MySqlTools.GetUserDataByAccount(account);
                 tempReturnDict.Add(1, userData.ToBytes());
-               
+
             }
             else
             {

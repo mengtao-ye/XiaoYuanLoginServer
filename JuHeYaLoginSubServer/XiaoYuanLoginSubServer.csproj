@@ -63,12 +63,17 @@
     <Compile Include="Data\Code\LoginRequestCode.cs" />
     <Compile Include="Data\Code\LoginUdpCode.cs" />
     <Compile Include="Data\Const\CommonConstData.cs" />
+    <Compile Include="Data\LostAndFound\LostData.cs" />
     <Compile Include="Data\Mapper\UdpHandlerMapper.cs" />
+    <Compile Include="Data\PartTimeJobData\PartTimeJobApplicationData.cs" />
+    <Compile Include="Data\PartTimeJobData\MyReleasePartTimeJobData.cs" />
     <Compile Include="Data\SchoolData\SchoolData.cs" />
     <Compile Include="Data\SchoolData\SchoolPairData.cs" />
+    <Compile Include="Data\SelectImageData\SelectImageData.cs" />
     <Compile Include="Data\ServerData\ServerData.cs" />
     <Compile Include="Data\SocketData\SubServerType.cs" />
     <Compile Include="Data\SystemData\SystemData.cs" />
+    <Compile Include="Data\UnuseData\UnuseData.cs" />
     <Compile Include="Data\UserData\UserAccountConstData.cs" />
     <Compile Include="Data\UserData\UserData.cs" />
     <Compile Include="Helper\XiaoYuanDataHelper.cs" />
@@ -80,10 +85,12 @@
     <Compile Include="Module\ThreadModule\ThreadModule.cs" />
     <Compile Include="MySQL\Data\MySQLTableData.cs" />
     <Compile Include="MySQL\Tools\BaseMsg\MySqlTools.cs" />
+    <Compile Include="MySQL\Tools\Unuse\MySqlTools.cs" />
     <Compile Include="MySQL\Tools\CampusCircle\MySqlTools.cs" />
     <Compile Include="MySQL\Tools\ChatMsg\MySqlTools.cs" />
+    <Compile Include="MySQL\Tools\LostAndFound\MySqlTools.cs" />
     <Compile Include="MySQL\Tools\MyMsg\MySqlTools.cs" />
-    <Compile Include="MySQL\Tools\MySQLCommandStr.cs" />
+    <Compile Include="MySQL\Tools\PartTimeJob\MySqlTools.cs" />
     <Compile Include="MySQL\Tools\SchoolMsg\MySqlTools.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -200,7 +207,7 @@
     <Compile Include="TemplatePro\Server\Udp\Server\UdpRequestHandleManager.cs" />
     <Compile Include="TemplatePro\Server\Udp\Server\UdpServer.cs" />
     <Compile Include="TemplatePro\Tools\ByteTools.cs" />
-    <Compile Include="TemplatePro\Tools\ConvertDataTools.cs" />
+    <Compile Include="TemplatePro\Tools\ConverterDataTools.cs" />
     <Compile Include="TemplatePro\Tools\Debug.cs" />
     <Compile Include="TemplatePro\Tools\DictionaryTools.cs" />
     <Compile Include="TemplatePro\Tools\EndPointTools.cs" />
@@ -211,6 +218,7 @@
     <Compile Include="TemplatePro\Tools\ReflectioTools.cs" />
     <Compile Include="TemplatePro\Tools\XmlMapper.cs" />
     <Compile Include="Tools\LoginServerTools.cs" />
+    <Compile Include="Tools\SelectImageDataTools\SelectImageDataTools.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

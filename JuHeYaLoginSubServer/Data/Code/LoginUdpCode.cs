@@ -31,9 +31,21 @@
         LikeCampusCircleItem = LoginRequestCode.Login + 20,//朋友圈点赞 
         HasLikeCampusCircleItem = LoginRequestCode.Login + 21,//是否朋友圈点赞
         GetCommit = LoginRequestCode.Login + 22,//获取评论信息
-                                                    
+       
+        //LostAndFound
+        PublishLostData = LoginRequestCode.Login + 23,//发表失物招领
+        GetMyLostData = LoginRequestCode.Login + 24,//获取我的失物招领
 
-
+        //PartTimeJob
+        ReleasePartTimeJob = LoginRequestCode.Login + 25,//发布兼职
+        GetMyReleasePartTimeJob = LoginRequestCode.Login + 26,//获取我发布的兼职
+        GetPartTimeJobList = LoginRequestCode.Login + 27,//获取兼职列表
+        ApplicationPartTimeJob = LoginRequestCode.Login + 28,//报名兼职
+        GetApplicationPartTimeJob = LoginRequestCode.Login + 29,//获取报名兼职列表
+        
+        //Unuse
+        ReleaseUnuse = LoginRequestCode.Login + 30,//发布兼职
+        GetUnuseList = LoginRequestCode.Login + 31,//获取闲置列表
 
     }
 }

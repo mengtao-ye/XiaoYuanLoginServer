@@ -11,5 +11,9 @@
         public const string campus_circle= "campus_circle";
         public const string campus_circle_like = "campus_circle_like";
         public const string campus_circle_commit = "campus_circle_commit";
+        public const string lost_list = "lost_list";
+        public const string part_time_job = "part_time_job";
+        public const string application_parttimejob_list = "application_parttimejob_list";
+        public const string unuse_list = "unuse_list";
     }
 }
