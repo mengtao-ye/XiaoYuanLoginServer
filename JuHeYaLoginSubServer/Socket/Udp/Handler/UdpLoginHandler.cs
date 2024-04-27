@@ -44,7 +44,52 @@ namespace SubServer
             Add((short)LoginUdpCode.GetApplicationPartTimeJob, GetApplicationPartTimeJob);
             Add((short)LoginUdpCode.ReleaseUnuse, ReleaseUnuse);
             Add((short)LoginUdpCode.GetUnuseList, GetUnuseList);
+            Add((short)LoginUdpCode.GetMyMetaSchoolData, GetMyMetaSchoolData);
+            Add((short)LoginUdpCode.SetMyMetaSchoolData, SetMyMetaSchoolData);
         }
+        /// <summary>
+        /// 设置我的校园数据
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] SetMyMetaSchoolData(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            long account = data.ToLong();
+            byte roleID = data[8];
+            bool res = MySqlTools.SetMyMetaSchoolData(account,roleID);
+            if (res) 
+            {
+                MyMetaSchoolData myMetaSchoolData = ClassPool<MyMetaSchoolData>.Pop();
+                myMetaSchoolData.Account = account;
+                myMetaSchoolData.RoleID = roleID;
+                byte[] returnBytes = myMetaSchoolData.ToBytes();
+                myMetaSchoolData.Recycle();
+                return returnBytes;
+            }
+            return BytesConst.FALSE_BYTES;
+        }
+        /// <summary>
+        /// 获取我的校园数据
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] GetMyMetaSchoolData(byte[] data, EndPoint endPoint)
+        {
+            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
+            int code = data.ToInt();
+            long account = data.ToLong(4);
+            MyMetaSchoolData myMetaSchoolData = MySqlTools.GetMyMetaSchoolData(account);
+            if (myMetaSchoolData == null) {
+                 return BytesConst.FALSE_BYTES;
+            }
+            byte[] returnBytes = myMetaSchoolData.ToBytes();
+            myMetaSchoolData.Recycle();
+            return ByteTools.Concat(code.ToBytes(), returnBytes);
+        }
+
         /// <summary>
         /// 获取闲置列表
         /// </summary>

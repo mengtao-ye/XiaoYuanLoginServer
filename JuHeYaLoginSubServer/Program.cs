@@ -12,7 +12,7 @@ namespace SubServer
             int udpPoint = 0;
             if (ServerData.serverEnv == ServerEnvType.Test)
             {
-                udpPoint = 50002;
+                udpPoint = 50100;
             }
             else
             {

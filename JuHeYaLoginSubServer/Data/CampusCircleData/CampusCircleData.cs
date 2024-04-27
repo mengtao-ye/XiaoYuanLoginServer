@@ -21,15 +21,15 @@ namespace SubServer
 
         public override void ReflectionMySQLData(MySqlDataReader reader)
         {
-            ID = reader.GetValue(0).ToInt();
-            Account = reader.GetValue(1).ToLong();
-            Content = reader.GetValue(2).ToString();
-            Images = reader.GetValue(3).ToString();
-            SchoolID = reader.GetValue(4).ToLong();
-            Time = reader.GetValue(5).ToLong();
+            ID = reader.GetInt32(0);
+            Account = reader.GetInt64(1);
+            Content = reader.GetString(2);
+            Images = reader.GetString(3);
+            SchoolID = reader.GetInt64(4);
+            Time = reader.GetInt64(5);
             IsAnonymous = reader.GetBoolean(6);
-            LikeCount = reader.GetValue(7).ToInt();
-            CommitCount = reader.GetValue(8).ToInt();
+            LikeCount = reader.GetInt32(7);
+            CommitCount = reader.GetInt32(8);
         }
 
         public override byte[] ToBytes()

@@ -47,5 +47,9 @@
         ReleaseUnuse = LoginRequestCode.Login + 30,//发布兼职
         GetUnuseList = LoginRequestCode.Login + 31,//获取闲置列表
 
+        //MetaSchool
+        GetMyMetaSchoolData = LoginRequestCode.Login + 32,//获取我的校园数据
+        SetMyMetaSchoolData = LoginRequestCode.Login + 33,//选择我的校园数据
+
     }
 }

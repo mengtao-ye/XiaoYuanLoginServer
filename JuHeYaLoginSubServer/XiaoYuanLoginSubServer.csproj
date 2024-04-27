@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\..\C#发布文件\JuHeYaLoginServer\</OutputPath>
+    <OutputPath>..\..\..\C#发布文件\XiaoYuanLogin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -65,6 +65,7 @@
     <Compile Include="Data\Const\CommonConstData.cs" />
     <Compile Include="Data\LostAndFound\LostData.cs" />
     <Compile Include="Data\Mapper\UdpHandlerMapper.cs" />
+    <Compile Include="Data\MetaSchoolData\MyMetaSchoolData.cs" />
     <Compile Include="Data\PartTimeJobData\PartTimeJobApplicationData.cs" />
     <Compile Include="Data\PartTimeJobData\MyReleasePartTimeJobData.cs" />
     <Compile Include="Data\SchoolData\SchoolData.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Module\ThreadModule\ThreadModule.cs" />
     <Compile Include="MySQL\Data\MySQLTableData.cs" />
     <Compile Include="MySQL\Tools\BaseMsg\MySqlTools.cs" />
+    <Compile Include="MySQL\Tools\MetaSchool\MySqlTools.cs" />
     <Compile Include="MySQL\Tools\Unuse\MySqlTools.cs" />
     <Compile Include="MySQL\Tools\CampusCircle\MySqlTools.cs" />
     <Compile Include="MySQL\Tools\ChatMsg\MySqlTools.cs" />

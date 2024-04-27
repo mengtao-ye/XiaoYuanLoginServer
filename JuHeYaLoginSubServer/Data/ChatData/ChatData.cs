@@ -23,12 +23,12 @@ namespace SubServer
 
         public override void ReflectionMySQLData(MySqlDataReader reader)
         {
-            id = reader.GetValue(0).ToLong();
-            send_userid = reader.GetValue(1).ToLong();
-            receive_userid = reader.GetValue(2).ToLong();
-            msg_type = reader.GetValue(3).ToInt();
-            chat_msg = reader.GetValue(4).ToString();
-            time = reader.GetValue(5).ToLong();
+            id = reader.GetInt64(0);
+            send_userid = reader.GetInt64(1);
+            receive_userid = reader.GetInt64(2);
+            msg_type = reader.GetInt32(3);
+            chat_msg = reader.GetString(4);
+            time = reader.GetInt64(5);
         }
 
         public override byte[] ToBytes()

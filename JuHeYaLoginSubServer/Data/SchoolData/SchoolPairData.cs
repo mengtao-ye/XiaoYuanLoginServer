@@ -15,8 +15,8 @@ namespace SubServer
 
         public override void ReflectionMySQLData(MySqlDataReader reader)
         {
-            account = reader.GetValue(0).ToLong();
-            schoolCode = reader.GetValue(1).ToLong();
+            account = reader.GetInt64(0);
+            schoolCode = reader.GetInt64(1);
         }
 
         public override byte[] ToBytes()

@@ -15,5 +15,6 @@
         public const string part_time_job = "part_time_job";
         public const string application_parttimejob_list = "application_parttimejob_list";
         public const string unuse_list = "unuse_list";
+        public const string user_metaschool_data = "user_metaschool_data";
     }
 }

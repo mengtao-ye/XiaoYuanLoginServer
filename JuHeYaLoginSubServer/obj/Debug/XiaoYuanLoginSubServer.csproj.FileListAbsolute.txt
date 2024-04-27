@@ -7,3 +7,6 @@ D:\C#Project\XiaoYuanLoginSubServer\JuHeYaLoginSubServer\obj\Debug\XiaoYuanLogin
 D:\C#Project\XiaoYuanLoginSubServer\JuHeYaLoginSubServer\obj\Debug\XiaoYuanLoginSubServer.csproj.CopyComplete
 D:\C#Project\XiaoYuanLoginSubServer\JuHeYaLoginSubServer\obj\Debug\JuHeYaLoginSubServer.exe
 D:\C#Project\XiaoYuanLoginSubServer\JuHeYaLoginSubServer\obj\Debug\JuHeYaLoginSubServer.pdb
+D:\C#发布文件\XiaoYuanLogin\JuHeYaLoginSubServer.exe.config
+D:\C#发布文件\XiaoYuanLogin\JuHeYaLoginSubServer.exe
+D:\C#发布文件\XiaoYuanLogin\JuHeYaLoginSubServer.pdb
