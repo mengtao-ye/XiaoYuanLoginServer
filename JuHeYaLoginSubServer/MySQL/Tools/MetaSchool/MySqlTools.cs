@@ -4,7 +4,7 @@ namespace SubServer
 {
     public partial class MySqlTools
     {
-        public static bool SetMyMetaSchoolData(long account,byte roleID)
+        public static bool SetMyMetaSchoolData(long account,int roleID)
         {
             MySQL add = ClassPool<MySQL>.Pop();
             add.SetData(MySQLTableData.user_metaschool_data, "account", account.ToString(),"role_id",roleID.ToString());

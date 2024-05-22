@@ -98,7 +98,8 @@ namespace SubServer
         /// </summary>
         /// <param name="ipaddress"></param>
         /// <param name="port"></param>
-        public void InitCenterPoint(string ipAddress,int port) {
+        public void InitCenterPoint(string ipAddress,int port) 
+        {
             mCenterPoint = new IPEndPoint(IPAddress.Parse(ipAddress), port);
         }
         /// <summary>

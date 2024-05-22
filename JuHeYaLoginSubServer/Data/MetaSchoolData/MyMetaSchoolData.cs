@@ -6,7 +6,7 @@ namespace SubServer
     public class MyMetaSchoolData : BaseMySqlReflection
     {
         public long Account;
-        public byte RoleID;
+        public int RoleID;
         public override void Recycle()
         {
             ClassPool<MyMetaSchoolData>.Push(this);
@@ -14,7 +14,7 @@ namespace SubServer
         public override void ReflectionMySQLData(MySqlDataReader reader)
         {
             Account = reader.GetInt64(0);
-            RoleID = reader.GetByte(1);
+            RoleID = reader.GetInt32(1);
         }
 
         public override byte[] ToBytes()
@@ -31,7 +31,7 @@ namespace SubServer
         {
             IListData<byte[]> bytes = data.ToListBytes();
             Account = bytes[0].ToLong();
-            RoleID = bytes[1].ToByte();
+            RoleID = bytes[1].ToInt();
             bytes.Recycle();
         }
     }

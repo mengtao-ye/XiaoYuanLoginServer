@@ -127,7 +127,7 @@ namespace SubServer
         }
 
         /// <summary>
-        /// 发表朋友圈
+        /// 发表校友圈
         /// </summary>
         /// <param name="account"></param>
         /// <param name="content"></param>
@@ -135,15 +135,16 @@ namespace SubServer
         /// <param name="isSchool"></param>
         /// <param name="time"></param>
         /// <returns></returns>
-        public static bool PublishCampusCircle(long account, string content, string images, bool isSchool, long time)
+        public static bool PublishCampusCircle(long account, string content, string images, long schoolCode, long time,bool isAnomymous)
         {
             MySQL add = ClassPool<MySQL>.Pop();
             IDictionaryData<string, string> dict = ClassPool<DictionaryData<string, string>>.Pop();
             dict.Add("account", account.ToString());
             dict.Add("content", content);
             dict.Add("images", images);
-            dict.Add("is_school", isSchool ? "1" : "0");
+            dict.Add("school_code", schoolCode.ToString());
             dict.Add("time", time.ToString());
+            dict.Add("is_anonymous", isAnomymous ? "1":"0");
             add.SetData(MySQLTableData.campus_circle, dict);
             bool res = mManager.Add(add);
             add.Recycle();

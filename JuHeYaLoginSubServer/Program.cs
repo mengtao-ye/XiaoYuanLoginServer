@@ -26,7 +26,7 @@ namespace SubServer
                 }
             }
             ServerData.UdpServerPort = udpPoint;
-            center.InitCenterPoint("127.0.0.1", 50000);
+            center.InitCenterPoint(ServerData.IPAddress, 50000);
             center.LauncherServer(ServerData.IPAddress, ServerData.UdpServerPort);
             center.LauncherController();
             MySQLManager mySQLManager = center.LauncherMySQLManager("127.0.0.1", "xiaoyuan", "root", "528099tt...");

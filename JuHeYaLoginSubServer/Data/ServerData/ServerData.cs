@@ -31,13 +31,10 @@
                 {
                     case ServerNetType.Local:
                         return "127.0.0.1";
-                        break;
                     case ServerNetType.AliYun:
-                        return "121.40.245.164";
-                        break;
+                        return "172.21.15.137";
                     case ServerNetType.TenXunYun:
                         return "127.0.0.1";
-                        break;
                 }
             }
         }

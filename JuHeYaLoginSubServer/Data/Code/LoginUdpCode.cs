@@ -2,6 +2,8 @@
 {
     public enum LoginUdpCode : short
     {
+        //目前到了  35
+
         //SubServer
         LoginSubServerRegister = LoginRequestCode.SubServer +1,//登录部分分布式服务器注册
         LoginSubServerHeartBeat = LoginRequestCode.SubServer +2,//登录部分分布式服务器心跳包
@@ -34,7 +36,11 @@
        
         //LostAndFound
         PublishLostData = LoginRequestCode.Login + 23,//发表失物招领
-        GetMyLostData = LoginRequestCode.Login + 24,//获取我的失物招领
+        GetMyLostList = LoginRequestCode.Login + 24,//获取我的失物招领
+        GetLostList = LoginRequestCode.Login + 34,//获取我的失物招领
+        SearchLostList = LoginRequestCode.Login + 35,//查找失物列表
+
+
 
         //PartTimeJob
         ReleasePartTimeJob = LoginRequestCode.Login + 25,//发布兼职
