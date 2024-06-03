@@ -6,6 +6,19 @@ namespace SubServer
     public partial  class MySqlTools
     {
         /// <summary>
+        /// 删除失物招领
+        /// </summary>
+        /// <param name="lostID"></param>
+        public static bool DeleteLost(int lostID)
+        {
+            MySQL delete = ClassPool<MySQL>.Pop();
+            delete.SetData(MySQLTableData.lost_list,"id",lostID.ToString());
+            bool res = mManager.Delete(delete);
+            delete.Recycle();
+            return res;
+        }
+
+        /// <summary>
         /// 获取失物招领列表
         /// </summary>
         /// <param name="schoolCode"></param>
@@ -54,7 +67,7 @@ namespace SubServer
             command?.Recycle();
             return listData;
         }
-
+      
         /// <summary>
         /// 添加失物招领数据
         /// </summary>
@@ -65,18 +78,19 @@ namespace SubServer
         /// <param name="account"></param>
         /// <param name="images"></param>
         /// <returns></returns>
-        public static IListData<LostData> GetMyLost(long account,int lastID)
+        public static IListData<LostData> GetMyLost(long account, long updateTime)
         {
             IMySqlCommand command = MySQLCommand.Select()
-                .From
-                .Datebase(MySQLTableData.lost_list)
-                .Where
-                .Compare("account", CompareType.Equal, account.ToString())
-                .And
-                .Compare("id", CompareType.Big, lastID.ToString())
-                .Limit(3)
-                .End
-                ;
+               .From
+               .Datebase(MySQLTableData.lost_list)
+               .Where
+               .Compare("account", CompareType.Equal, account.ToString())
+               .And
+               .Compare("update_time", CompareType.Small, updateTime.ToString())
+               .Order("update_time", MySQLCoding.GBK, MySQLSort.DESC)
+               .Limit(3)
+               .End
+               ;
             IListData<LostData> listData = mManager.FindAllByListPoolData<LostData>(command.mySqlStr);
             command?.Recycle();
             return listData;

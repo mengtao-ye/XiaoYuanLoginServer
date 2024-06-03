@@ -12,7 +12,7 @@
         /// <summary>
         /// tcp服务端口号
         /// </summary>
-        public const int TcpServerPort = -1;
+        public static int TcpServerPort = -1;
         /// <summary>
         /// 服务器环境
         /// </summary>
@@ -38,7 +38,24 @@
                 }
             }
         }
-
+        /// <summary>
+        /// 公网ip地址
+        /// </summary>
+        public static string PublicIPAddress
+        {
+            get
+            {
+                switch (ServerData.serverNet)
+                {
+                    case ServerNetType.Local:
+                        return "127.0.0.1";
+                    case ServerNetType.AliYun:
+                        return "121.40.245.164";
+                    case ServerNetType.TenXunYun:
+                        return "127.0.0.1";
+                }
+            }
+        }
     }
 
     /// <summary>

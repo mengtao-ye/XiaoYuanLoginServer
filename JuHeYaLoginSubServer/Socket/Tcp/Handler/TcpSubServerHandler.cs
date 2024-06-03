@@ -3,26 +3,23 @@ using YSF;
 
 namespace SubServer
 {
-    public class UdpSubServerHandler : BaseUdpRequestHandle
+    public class TcpSubServerHandler : BaseTcpRequestHandle
     {
-        public override short requestCode =>(short)LoginRequestCode.SubServer;
-        public UdpSubServerHandler(IUdpServer server) : base(server)
+        protected override short mRequestCode => (short)TcpLoginRequestCode.SubServer;
+        public TcpSubServerHandler(ITcpServer server) : base(server)
         {
 
         }
         protected override void ComfigActionCode()
         {
-            //Add((short)LoginUdpCode.LoginSubServerRegister, LoginSubServerRegister);
-            //Add((short)LoginUdpCode.LoginSubServerHeartBeat, LoginSubServerHeartBeat);
-
             Add((short)LoginUdpCode.TcpLoginSubServerRegister, LoginSubServerRegister);
             Add((short)LoginUdpCode.TcpLoginSubServerHeartBeat, LoginSubServerHeartBeat);
         }
-        private byte[] LoginSubServerHeartBeat(byte[] data, EndPoint endPoint)
+        private byte[] LoginSubServerHeartBeat(byte[] data, Client endPoint)
         {
             return null;
         }
-        private byte[] LoginSubServerRegister(byte[] data,EndPoint endPoint)
+        private byte[] LoginSubServerRegister(byte[] data, Client endPoint)
         {
             if (data.IsNullOrEmpty() || data.Length != 4) 
             {
@@ -37,7 +34,7 @@ namespace SubServer
             SystemData.SubServerID = id;
             SystemData.SubServerIDBytes = id.ToBytes();
             Debug.Log("分布式服务器注册成功："+id);
-            MainCenter.Instance.controllerManager.Remove(ControllerType.RegisterLoginSubServer);
+            MainCenter.Instance.controllerManager.Remove(ControllerType.RegisterTcpLoginSubServer);
             MainCenter.Instance.controllerManager.Add(new TcpLoginSubServerHeartBeatController(MainCenter.Instance.controllerManager));
             return null;
         }

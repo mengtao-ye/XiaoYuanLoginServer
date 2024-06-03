@@ -3,7 +3,7 @@ using YSF;
 
 namespace SubServer
 {
-    public class MyReleasePartTimeJobData : BaseMySqlReflection
+    public class PartTimeJobData : BaseMySqlReflection
     {
         public int ID;
         public long Account;
@@ -16,7 +16,7 @@ namespace SubServer
 
         public override void Recycle()
         {
-            ClassPool<MyReleasePartTimeJobData>.Push(this);
+            ClassPool<PartTimeJobData>.Push(this);
         }
 
         public override void ReflectionMySQLData(MySqlDataReader reader)

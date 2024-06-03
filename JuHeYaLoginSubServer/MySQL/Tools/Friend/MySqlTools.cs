@@ -5,6 +5,46 @@ namespace SubServer
 {
     public partial class MySqlTools
     {
+        /// <summary>
+        /// 删除好友
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="friendAccount"></param>
+        /// <returns></returns>
+        public static bool DeleteFriend(long account,long friendAccount)
+        {
+            MySQL delete = ClassPool<MySQL>.Pop();
+            delete.SetData(MySQLTableData.friend_pair,"user_account",account.ToString(),"friend_account",friendAccount.ToString());
+            bool res = mManager.Delete(delete);
+            delete.Recycle();
+            return res;
+        }
+
+        /// <summary>
+        /// 修改备注
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="friendAccount"></param>
+        /// <param name="notes"></param>
+        /// <returns></returns>
+        public static bool ChangeNotes(long account,long friendAccount,string notes)
+        {
+            bool isFriend = IsInFriendPair(account, friendAccount);
+            if (isFriend)
+            {
+                WhereMySQL change = ClassPool<WhereMySQL>.Pop();
+                IDictionaryData<string, string> where = ClassPool<DictionaryData<string, string>>.Pop();
+                where.Add("user_account",account.ToString());
+                where.Add("friend_account", friendAccount.ToString());
+                IDictionaryData<string, string> update = ClassPool<DictionaryData<string, string>>.Pop();
+                update.Add("notes", notes);
+                change.SetData(MySQLTableData.friend_pair,update,where);
+                bool res = mManager.Update(change);
+                change.Recycle();
+                return res;
+            }
+            return false;
+        }
 
         /// <summary>
         /// 添加好友请求

@@ -12,10 +12,9 @@ namespace SubServer
         /// <returns></returns>
         public static string GetLikeStr(string str,string field)
         {
-            if (str.IsNullOrEmpty()) return "";
-            string[] strs = str.Split();
+            if (str.IsNullOrEmpty()) return string.Empty;
+            char[] strs = str.ToCharArray();
             StringBuilderPool stringBuilderPool = ClassPool<StringBuilderPool>.Pop();
-
             for (int i = 0; i < strs.Length; i++)
             {
                 stringBuilderPool.Append($" {field} like '%{strs[i]}%'");

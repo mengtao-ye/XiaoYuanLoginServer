@@ -5,15 +5,13 @@ namespace SubServer
 {
     public class CampusCircleData : BaseMySqlReflection
     {
-        public int ID;
+        public long ID;
         public long Account;
         public string Content;
         public byte[] Images;
         public long SchoolID;
         public long Time;
         public bool IsAnonymous;//是否是匿名
-        public int LikeCount;
-        public int CommitCount;
         public override void Recycle()
         {
             ClassPool<CampusCircleData>.Push(this);
@@ -21,7 +19,7 @@ namespace SubServer
 
         public override void ReflectionMySQLData(MySqlDataReader reader)
         {
-            ID = reader.GetInt32(0);
+            ID = reader.GetInt64(0);
             Account = reader.GetInt64(1);
             Content = reader.GetString(2);
             string images = reader.GetString(3);
@@ -29,8 +27,6 @@ namespace SubServer
             SchoolID = reader.GetInt64(4);
             Time = reader.GetInt64(5);
             IsAnonymous = reader.GetBoolean(6);
-            LikeCount = reader.GetInt32(7);
-            CommitCount = reader.GetInt32(8);
         }
 
         public override byte[] ToBytes()
@@ -43,8 +39,6 @@ namespace SubServer
             bytes.Add(SchoolID.ToBytes());
             bytes.Add(Time.ToBytes());
             bytes.Add(IsAnonymous.ToBytes());
-            bytes.Add(LikeCount.ToBytes());
-            bytes.Add(CommitCount.ToBytes());
             byte[] returnBytes = bytes.list.ToBytes();
             bytes.Recycle();
             return returnBytes;
@@ -53,15 +47,13 @@ namespace SubServer
         public override void ToValue(byte[] data)
         {
             IListData<byte[]> bytes = data.ToListBytes();
-            ID = bytes[0].ToInt();
+            ID = bytes[0].ToLong();
             Account = bytes[1].ToLong();
             Content = bytes[2].ToStr();
             Images = bytes[3];
             SchoolID = bytes[4].ToLong();
             Time = bytes[5].ToLong();
             IsAnonymous = bytes[6].ToBool();
-            LikeCount = bytes[7].ToInt();
-            CommitCount = bytes[8].ToInt();
             bytes.Recycle();
         }
     }

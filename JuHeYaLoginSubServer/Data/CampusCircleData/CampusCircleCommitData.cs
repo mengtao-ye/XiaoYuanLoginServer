@@ -5,12 +5,11 @@ namespace SubServer
 {
     public class CampusCircleCommitData : BaseMySqlReflection
     {
-        public int ID;
+        public long ID;
         public long Account;
         public long CampusCircleID;
-        public long ReplayID;
         public string Content;
-
+        public int ReplayCount;//回复数量
         public override void Recycle()
         {
             ClassPool<CampusCircleCommitData>.Push(this);
@@ -18,11 +17,10 @@ namespace SubServer
 
         public override void ReflectionMySQLData(MySqlDataReader reader)
         {
-            ID = reader.GetInt32(0);
+            ID = reader.GetInt64(0);
             Account = reader.GetInt64(1);
             CampusCircleID = reader.GetInt64(2);
-            ReplayID = reader.GetInt64(3);
-            Content = reader.GetString(4);
+            Content = reader.GetString(3);
         }
 
         public override byte[] ToBytes()
@@ -31,8 +29,8 @@ namespace SubServer
             bytes.Add(ID.ToBytes());
             bytes.Add(Account.ToBytes());
             bytes.Add(CampusCircleID.ToBytes());
-            bytes.Add(ReplayID.ToBytes());
             bytes.Add(Content.ToBytes());
+            bytes.Add(ReplayCount.ToBytes());
             byte[] returnBytes = bytes.list.ToBytes();
             bytes.Recycle();
             return returnBytes;
@@ -41,11 +39,11 @@ namespace SubServer
         public override void ToValue(byte[] data)
         {
             IListData<byte[]> bytes = data.ToListBytes();
-            ID = bytes[0].ToInt();
+            ID = bytes[0].ToLong();
             Account = bytes[1].ToLong();
             CampusCircleID = bytes[2].ToLong();
-            ReplayID = bytes[3].ToLong();
-            Content = bytes[4].ToStr();
+            Content = bytes[3].ToStr();
+            ReplayCount = bytes[4].ToInt();
             bytes.Recycle();
         }
     }

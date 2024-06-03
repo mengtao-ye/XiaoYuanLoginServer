@@ -15,7 +15,7 @@ namespace SubServer
         public void Awake()
         {
             //配置数据
-            Add(new RegisterLoginSubServerController(this));
+            Add(new RegisterTcpLoginSubServerController(this));
         }
 
         public void Start()

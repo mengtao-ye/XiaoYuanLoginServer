@@ -11,6 +11,7 @@ namespace SubServer
         private ServerCenter mCenterServer;
         public ServerCenter centerServer { get { return mCenterServer; } }
         public UdpServer udpServer { get { return mCenterServer.udpServer; } }
+        public TcpServer tcpServer { get { return mCenterServer.tcpServer; } }
         private IControllerManager mController;
         public IControllerManager controllerManager { get { return mController; } }
         private Thread mLifeThread;//生命周期线程
@@ -28,6 +29,8 @@ namespace SubServer
             mLifes = new List<ILife>();
             mLifeThread = new Thread(Update);
             mLifeThread.Start();
+            mCenterServer = new ServerCenter();
+            mCenterServer.InitHelper(new XiaoYuanDataHelper());
         }
         private void Update()
         {
@@ -81,18 +84,29 @@ namespace SubServer
             life.Start();
         }
         /// <summary>
-        /// 启动服务器服务
+        /// 启动Udp服务器服务
         /// </summary>
         /// <param name="ipAddress"></param>
         /// <param name="port"></param>
-        public void LauncherServer(string ipAddress, int port)
+        public void LauncherUdpServer(string ipAddress, int port)
         {
-            mCenterServer = new ServerCenter();
-            mCenterServer.InitHelper(new XiaoYuanDataHelper());
             UdpHandlerMapper udpHandlerMapper = new UdpHandlerMapper();
             mCenterServer.LauncherUDPServer(ipAddress, port, udpHandlerMapper);
             udpHandlerMapper.Init();
         }
+        /// <summary>
+        /// 启动Tcp服务器服务
+        /// </summary>
+        /// <param name="ipAddress"></param>
+        /// <param name="port"></param>
+        public void LauncherTcpServer(string ipAddress, int port)
+        {
+            TcpHandlerMapper tcpHandlerMapper = new TcpHandlerMapper();
+            mCenterServer.LauncherTCPServer(ipAddress, port, tcpHandlerMapper);
+            tcpHandlerMapper.Init();
+        }
+
+
         /// <summary>
         /// 初始化中心服务器point
         /// </summary>
@@ -111,6 +125,8 @@ namespace SubServer
         {
             UdpSend(mCenterPoint,udpCode,data);
         }
+
+
         /// <summary>
         /// 向服务器发送消息
         /// </summary>

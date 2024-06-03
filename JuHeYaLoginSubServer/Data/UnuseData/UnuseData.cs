@@ -12,6 +12,8 @@ namespace SubServer
         public byte[] images;
         public byte type;
         public int price;
+        public byte contactType;
+        public string  contact;
 
         public override void Recycle()
         {
@@ -28,6 +30,8 @@ namespace SubServer
             this.images = SelectImageDataTools.GetBytes(images);
             type = reader.GetByte(5);
             price = reader.GetInt32(6);
+            contactType = reader.GetByte(7);
+            contact = reader.GetString(8);
         }
 
         public override byte[] ToBytes()
@@ -40,6 +44,9 @@ namespace SubServer
             bytes.Add(images);
             bytes.Add(type.ToBytes());
             bytes.Add(price.ToBytes());
+            bytes.Add(contactType.ToBytes());
+            bytes.Add(contact.ToBytes());
+
             byte[] returnBytes = bytes.list.ToBytes();
             bytes.Recycle();
             return returnBytes;
@@ -55,6 +62,8 @@ namespace SubServer
             images = bytes[4];
             type = bytes[5].ToByte();
             price = bytes[6].ToInt();
+            contactType = bytes[7].ToByte();
+            contact = bytes[8].ToStr();
             bytes.Recycle();
         }
     }
