@@ -5,6 +5,19 @@ namespace SubServer
     public partial  class MySqlTools
     {
         /// <summary>
+        /// 退出学校
+        /// </summary>
+        /// <returns></returns>
+        public static bool ExitSchool(long account,long schoolCode)
+        {
+            MySQL delete = ClassPool<MySQL>.Pop();
+            delete.SetData(MySQLTableData.school_pair,"account",account.ToString(),"school_code",schoolCode.ToString());
+            bool res = mManager.Delete(delete);
+            delete.Recycle();
+            return res;
+        }
+
+        /// <summary>
         /// 加入学校
         /// </summary>
         /// <param name="account"></param>
@@ -42,18 +55,10 @@ namespace SubServer
         /// <returns></returns>
         public static SchoolPairData GetSchoolPairData(long account)
         {
-            SchoolPairData tempSchoolPair = DictionaryModule<long, SchoolPairData>.Get(account);
-            if (tempSchoolPair != null)
-            {
-                return tempSchoolPair;
-            }
             MySQL findMySQL = ClassPool<MySQL>.Pop();
-            IDictionaryData<string, string> dict = ClassPool<DictionaryData<string, string>>.Pop();
             findMySQL.SetData(MySQLTableData.school_pair, "account", account.ToString());
             SchoolPairData schoolPairData = mManager.FindPool<SchoolPairData>(findMySQL);
             findMySQL.Recycle();
-            if (schoolPairData.IsNull()) return null;
-            DictionaryModule<long, SchoolPairData>.Add(account, schoolPairData);
             return schoolPairData;
         }
         /// <summary>
@@ -63,18 +68,10 @@ namespace SubServer
         /// <returns></returns>
         public static SchoolData GetSchoolData(long schoolCode)
         {
-            SchoolData tempSchool = DictionaryModule<long, SchoolData>.Get(schoolCode);
-            if (tempSchool != null)
-            {
-                return tempSchool;
-            }
             MySQL findMySQL = ClassPool<MySQL>.Pop();
-            IDictionaryData<string, string> dict = ClassPool<DictionaryData<string, string>>.Pop();
             findMySQL.SetData(MySQLTableData.schools, "code", schoolCode.ToString());
             SchoolData schoolData = mManager.FindPool<SchoolData>(findMySQL);
             findMySQL.Recycle();
-            if (schoolData.IsNull()) return null;
-            DictionaryModule<long, SchoolData>.Add(schoolCode, schoolData);
             return schoolData;
         }
 
@@ -85,81 +82,19 @@ namespace SubServer
         /// <returns></returns>
         public static IListData<SchoolData> SearchSchoolsData(string name)
         {
-            IListData<SchoolData> schoolList = ClassPool<ListData<SchoolData>>.Pop();
-            if (!DictionaryModule<long, SchoolData>.data.IsNullOrEmpty())
-            {
-                DictionaryModule<long, SchoolData>.data.Foreach(SchoolDictForeach, schoolList, name);
-            }
-            if (schoolList.Count >= 10) return schoolList;
-            IListData<CompareItem> compares = null;
-            if (schoolList.Count != 0) 
-            {
-                compares = ClassPool<ListPoolData<CompareItem>>.Pop();
-                for (int i = 0; i < schoolList.Count; i++)
-                {
-                    CompareItem compareItem = ClassPool<CompareItem>.Pop();
-                    compareItem.field = "id";
-                    compareItem.value = schoolList[i].schoolID.ToString();
-                    compareItem.compareType = CompareType.NotEqual;
-                    compareItem.operatorType =  MySQLOperatorType.And;
-                    compares.Add(compareItem);
-                }
-            }
             MySQL findMySQL = ClassPool<MySQL>.Pop();
             IMySqlCommand command = MySQLCommand.Select()
                 .From
                 .Datebase(MySQLTableData.schools)
                 .Where
-                .Compares(compares == null ? null : compares.ToArray())
-                .Like("name", name)
-                .Limit(10 - schoolList.Count)
+                .Str(MySQLStr.GetLikeStr(name,"name"))
+                .Limit(10)
                 .End
                 ;
-            compares?.Recycle();
             IListData<SchoolData> schoolData = mManager.FindAllByListData<SchoolData>(command.mySqlStr);
-            if (!schoolData.IsNull())
-            {
-                for (int i = 0; i < schoolData.list.Count; i++)
-                {
-                    bool isContains = false;
-                    for (int j = 0; j < schoolList.Count; j++)
-                    {
-                        if (schoolList[j].schoolID == schoolData.list[i].schoolID)
-                        {
-                            isContains = true;
-                        }
-                    }
-                    if (!isContains)
-                    {
-                        schoolList.Add(schoolData.list[i]);
-                    }
-                    DictionaryModule<long, SchoolData>.Add(schoolData.list[i].schoolID, schoolData.list[i]);
-                }
-            }
-            schoolData?.Recycle();
             findMySQL?.Recycle();
             command?.Recycle();
-            return schoolList;
+            return schoolData;
         }
-        /// <summary>
-        /// 遍历学校列表
-        /// </summary>
-        /// <param name="schoolCode"></param>
-        /// <param name="data"></param>
-        /// <param name="listData"></param>
-        /// <param name="name"></param>
-        private static bool SchoolDictForeach(long schoolCode, SchoolData data, IListData<SchoolData> listData, string name)
-        {
-            if (listData.Count >= 10)
-            {
-                return true;
-            }
-            if (data.name.Contains(name))
-            {
-                listData.Add(data);
-            }
-            return false;
-        }
-
     }
 }

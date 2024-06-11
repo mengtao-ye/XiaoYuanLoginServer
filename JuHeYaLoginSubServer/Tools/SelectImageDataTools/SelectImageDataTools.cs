@@ -31,7 +31,7 @@ namespace SubServer
             IListData<SelectImageData> list = ClassPool<ListPoolData<SelectImageData>>.Pop();
             for (int i = 0; i < count; i++)
             {
-                list.Add(ConverterDataTools.ToObjectPool<SelectImageData>(data, i * SelectImageData.LEN));
+                list.Add(ConverterDataTools.ToPoolObject<SelectImageData>(data, i * SelectImageData.LEN));
             }
             return list;
         }

@@ -16,6 +16,12 @@
         GetSchoolData = TcpLoginRequestCode.Login + 6,//获取学校数据
         SearchSchool = TcpLoginRequestCode.Login + 7,//查找学校
         JoinSchool = TcpLoginRequestCode.Login + 8,//加入学校
+        ModifyName = TcpLoginRequestCode.Login + 63,//修改名称
+        ModifySex = TcpLoginRequestCode.Login + 64,//修改性别
+        ModifyBrithday = TcpLoginRequestCode.Login + 65,//修改生日
+        ExitSchool = TcpLoginRequestCode.Login + 66,//退出学校
+
+
         //Chat
         GetNewChatMsg = TcpLoginRequestCode.Login + 9,//获取最新聊天信息
         SendChatMsg = TcpLoginRequestCode.Login + 10,//发送聊天消息

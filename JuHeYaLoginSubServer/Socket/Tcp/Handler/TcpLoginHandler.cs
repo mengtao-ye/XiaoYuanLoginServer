@@ -13,6 +13,7 @@ namespace SubServer
         }
         protected override void ComfigActionCode()
         {
+            //Base
             Add((short)TcpLoginUdpCode.LoginAccount, LoginAccount);
             Add((short)TcpLoginUdpCode.HeartBeat, HeartBeat);
             Add((short)TcpLoginUdpCode.RegisterAccount, RegisterAccount);
@@ -21,6 +22,10 @@ namespace SubServer
             Add((short)TcpLoginUdpCode.GetSchoolData, GetSchoolData);
             Add((short)TcpLoginUdpCode.SearchSchool, SearchSchool);
             Add((short)TcpLoginUdpCode.JoinSchool, JoinSchool);
+            Add((short)TcpLoginUdpCode.ModifyName, ModifyName);
+            Add((short)TcpLoginUdpCode.ModifySex, ModifySex);
+            Add((short)TcpLoginUdpCode.ModifyBrithday, ModifyBrithday);
+            Add((short)TcpLoginUdpCode.ExitSchool, ExitSchool);
             //Chat
             Add((short)TcpLoginUdpCode.GetNewChatMsg, GetNewChatMsg);
             Add((short)TcpLoginUdpCode.GetFriendList, GetFriendList);
@@ -78,12 +83,98 @@ namespace SubServer
             //MetaSchool
             Add((short)TcpLoginUdpCode.GetMyMetaSchoolData, GetMyMetaSchoolData);
             Add((short)TcpLoginUdpCode.SetMyMetaSchoolData, SetMyMetaSchoolData);
-
+            //Found
             Add((short)TcpLoginUdpCode.PublishFoundData, PublishFoundData);
             Add((short)TcpLoginUdpCode.GetFoundList, GetFoundList);
             Add((short)TcpLoginUdpCode.GetMyFoundList, GetMyFoundList);
             Add((short)TcpLoginUdpCode.DeleteFound, DeleteFound);
             Add((short)TcpLoginUdpCode.SearchFoundList, SearchFoundList);
+        }
+
+        /// <summary>
+        /// 退出学校
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] ExitSchool(byte[] data, Client endPoint)
+        {
+            if (data.IsNullOrEmpty()) return SocketTools.GetNullParamError();
+            long account = data.ToLong();
+            long schoolCode = data.ToLong(8);
+            bool res = MySqlTools.ExitSchool(account, schoolCode);
+            if (res)
+            {
+                return SocketTools.ToBytes(SocketResultCode.Success, null, null);
+            }
+            else
+            {
+                return SocketTools.ToBytes(SocketResultCode.Error, "学校退出失败", null);
+            }
+        }
+
+        /// <summary>
+        /// 修改生日
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] ModifyBrithday(byte[] data, Client endPoint)
+        {
+            if (data.IsNullOrEmpty()) return SocketTools.GetNullParamError();
+            long account = data.ToLong();
+            int brithday = data.ToInt(8);
+            bool res = MySqlTools.ModifyBirthday(account, brithday);
+            if (res)
+            {
+                return SocketTools.ToBytes(SocketResultCode.Success, null, brithday.ToBytes());
+            }
+            else
+            {
+                return SocketTools.ToBytes(SocketResultCode.Error, "生日修改失败", null);
+            }
+        }
+        /// <summary>
+        /// 修改性别
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] ModifySex(byte[] data, Client endPoint)
+        {
+            if (data.IsNullOrEmpty()) return SocketTools.GetNullParamError();
+            long account = data.ToLong();
+            byte sex = data.ToByte(8);
+            bool res = MySqlTools.ModifySex(account, sex);
+            if (res)
+            {
+                return SocketTools.ToBytes(SocketResultCode.Success, null, sex.ToBytes());
+            }
+            else
+            {
+                return SocketTools.ToBytes(SocketResultCode.Error, "性别修改失败", null);
+            }
+        }
+        /// <summary>
+        /// 修改名称
+        /// </summary>
+        /// <param name="data"></param>
+        /// <param name="endPoint"></param>
+        /// <returns></returns>
+        private byte[] ModifyName(byte[] data, Client endPoint)
+        {
+            if (data.IsNullOrEmpty()) return SocketTools.GetNullParamError();
+            long account = data.ToLong();
+            string modifyName = data.ToStr(8, data.Length - 8);
+            bool res = MySqlTools.ModifyName(account, modifyName);
+            if (res)
+            {
+                return SocketTools.ToBytes(SocketResultCode.Success, null, modifyName.ToBytes());
+            }
+            else
+            {
+                return SocketTools.ToBytes(SocketResultCode.Error, "名称修改失败", null);
+            }
         }
         /// <summary>
         /// 是否是好友
@@ -640,17 +731,22 @@ namespace SubServer
         /// <returns></returns>
         private byte[] GetMyMetaSchoolData(byte[] data, Client endPoint)
         {
-            if (data.IsNullOrEmpty()) return BytesConst.FALSE_BYTES;
-            int code = data.ToInt();
-            long account = data.ToLong(4);
+            if (data.IsNullOrEmpty()) return SocketTools.GetNullParamError();
+            long account = data.ToLong();
             MyMetaSchoolData myMetaSchoolData = MySqlTools.GetMyMetaSchoolData(account);
             if (myMetaSchoolData == null)
             {
-                return ByteTools.Concat(code.ToBytes(), BytesConst.FALSE_BYTES);
+                myMetaSchoolData = ClassPool<MyMetaSchoolData>.Pop();
+                myMetaSchoolData.Account = account;
+                myMetaSchoolData.RoleID = 0;
+                byte[] returnBytes2 = myMetaSchoolData.ToBytes();
+                myMetaSchoolData.Recycle();
+                return SocketTools.ToBytes(SocketResultCode.Success, "未找到该用户的信息", returnBytes2);
             }
             byte[] returnBytes = myMetaSchoolData.ToBytes();
             myMetaSchoolData.Recycle();
-            return ByteTools.Concat(code.ToBytes(), returnBytes);
+            return SocketTools.ToBytes(SocketResultCode.Success, null, returnBytes);
+
         }
 
         /// <summary>
@@ -1236,11 +1332,13 @@ namespace SubServer
 
         private byte[] GetUserData(byte[] data, Client endPoint)
         {
-            if (data.IsNullOrEmpty()) return null;
+            if (data.IsNullOrEmpty()) return SocketTools.GetNullParamError();
+            data = SocketTools.VarifyClientData(data);
+            if (data.IsNullOrEmpty())  return SocketTools.ToBytes( SocketResultCode.Error,"用户Token失效",null);
             long account = data.ToLong();
             UserData userData = MySqlTools.GetUserDataByAccount(account);
-            if (userData == null) return null;
-            return userData.ToBytes();
+            if (userData == null) return SocketTools.ToBytes(SocketResultCode.Error, "未找到对应的账号信息", null);
+            return SocketTools.ToBytes(SocketResultCode.Success, null, userData.ToBytes());
         }
         private byte[] HeartBeat(byte[] data, Client endPoint)
         {
@@ -1261,29 +1359,23 @@ namespace SubServer
 
         private byte[] LoginAccount(byte[] data, Client endPoint)
         {
-            if (data.IsNullOrEmpty()) return null;
+            if (data.IsNullOrEmpty()) return SocketTools.GetNullParamError();
             IListData<byte[]> item = data.ToListBytes();
             long account = item[0].ToLong();
             string password = item[1].ToStr();
             item.Recycle();
-            IDictionaryData<byte, byte[]> tempReturnDict = ClassPool<DictionaryData<byte, byte[]>>.Pop();
-            byte loginRes = 0;// 0 为失败 1为成功  2为账号或密码错误  
             bool isExist = MySqlTools.ConfineAccount(account.ToString(), password);
             if (isExist)
             {
-                loginRes = 1;
                 UserData userData = MySqlTools.GetUserDataByAccount(account);
-                tempReturnDict.Add(1, userData.ToBytes());
-
+                long token = TokenManager.Instance.CreateToken();
+                endPoint.Token = token;
+                return SocketTools.ToBytes(SocketResultCode.Success, null, ByteTools.Concat(token.ToBytes(), userData.ToBytes()));
             }
             else
             {
-                loginRes = 2;
+                return SocketTools.ToBytes(101, "账号或密码错误", null);
             }
-            tempReturnDict.Add(0, loginRes.ToBytes());
-            byte[] returnBytes = tempReturnDict.data.ToBytes();
-            tempReturnDict.Recycle();
-            return returnBytes;
         }
     }
 }

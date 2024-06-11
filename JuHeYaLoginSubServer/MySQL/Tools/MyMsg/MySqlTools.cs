@@ -5,6 +5,72 @@ namespace SubServer
     public partial  class MySqlTools
     {
         /// <summary>
+        /// 修改生日
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool ModifyBirthday(long account, int brithday)
+        {
+            WhereMySQL mysql = ClassPool<WhereMySQL>.Pop();
+            mysql.SetData(MySQLTableData.users, "birthday", brithday.ToString(), "account", account.ToString());
+            bool res = mManager.Update(mysql);
+            mysql.Recycle();
+            if (res)
+            {
+                UserData tempUserData = DictionaryModule<long, UserData>.Get(account);
+                if (tempUserData != null)
+                {
+                    tempUserData.birthday= brithday;
+                }
+            }
+            return res;
+        }
+        /// <summary>
+        /// 修改性别
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool ModifySex(long account, byte  sex)
+        {
+            WhereMySQL mysql = ClassPool<WhereMySQL>.Pop();
+            mysql.SetData(MySQLTableData.users, "sex", sex.ToString(), "account", account.ToString());
+            bool res = mManager.Update(mysql);
+            mysql.Recycle();
+            if (res)
+            {
+                UserData tempUserData = DictionaryModule<long, UserData>.Get(account);
+                if (tempUserData != null)
+                {
+                    tempUserData.sex = sex;
+                }
+            }
+            return res;
+        }
+        /// <summary>
+        /// 修改名称
+        /// </summary>
+        /// <param name="account"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static bool ModifyName(long account,string name)
+        {
+            WhereMySQL mysql = ClassPool<WhereMySQL>.Pop();
+            mysql.SetData(MySQLTableData.users,"username",name,"account",account.ToString());
+            bool res = mManager.Update(mysql);
+            mysql.Recycle();
+            if (res) 
+            {
+                UserData tempUserData = DictionaryModule<long, UserData>.Get(account);
+                if (tempUserData != null)
+                {
+                    tempUserData.Username = name;
+                }
+            }
+            return res;
+        }
+        /// <summary>
         /// 注册账号
         /// </summary>
         /// <param name="account"></param>

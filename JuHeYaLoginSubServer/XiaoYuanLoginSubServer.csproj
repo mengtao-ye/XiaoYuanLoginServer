@@ -88,6 +88,7 @@
     <Compile Include="Helper\XiaoYuanDataHelper.cs" />
     <Compile Include="Interface\ILife.cs" />
     <Compile Include="Main\MainCenter.cs" />
+    <Compile Include="Manager\TokenManager.cs" />
     <Compile Include="Module\ThreadModule\Base\BaseThread.cs" />
     <Compile Include="Module\ThreadModule\Base\IThread.cs" />
     <Compile Include="Module\ThreadModule\Entity\OnceThread.cs" />
@@ -236,6 +237,9 @@
     <Compile Include="TemplatePro\Tools\XmlMapper.cs" />
     <Compile Include="Tools\LoginServerTools.cs" />
     <Compile Include="Tools\SelectImageDataTools\SelectImageDataTools.cs" />
+    <Compile Include="Tools\SocketTools\Data\SocketResultCode.cs" />
+    <Compile Include="Tools\SocketTools\Data\SocketReturnMsg.cs" />
+    <Compile Include="Tools\SocketTools\SocketTools.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
