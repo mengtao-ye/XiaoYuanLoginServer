@@ -31,7 +31,11 @@ namespace SubServer
             mLifeThread.Start();
             mCenterServer = new ServerCenter();
             mCenterServer.InitHelper(new XiaoYuanDataHelper());
+           
         }
+
+      
+
         private void Update()
         {
             while (true)
@@ -104,9 +108,13 @@ namespace SubServer
             TcpHandlerMapper tcpHandlerMapper = new TcpHandlerMapper();
             mCenterServer.LauncherTCPServer(ipAddress, port, tcpHandlerMapper);
             tcpHandlerMapper.Init();
+            mCenterServer.tcpServer.clientLostCallBack+=ClientLostCallback;
         }
 
-
+        private void ClientLostCallback(Client client)
+        {
+            TokenManager.Instance.RemoveToken(client.Token);
+        }
         /// <summary>
         /// 初始化中心服务器point
         /// </summary>
